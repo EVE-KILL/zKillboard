@@ -47,7 +47,7 @@ class Db
 			//$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (Exception $ex) {
 			Log::log("Unable to connect to database: " . $ex->getMessage());
-			throw new Exception("Unable to connect to the database.");
+			throw $ex;
 		}
 		Db::execute("rollback");
 		Db::execute("set session wait_timeout = 30");

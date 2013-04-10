@@ -61,8 +61,7 @@ try {
 } catch (Exception $ex) {
 	echo "\n\nError!  Removing configuration file.\n";
 	unlink($configLocation);
-	echo "File removed - this is the error we ran into:\n";
-	echo $ex->getMessage() . "\n";
+	throw $ex;
 }
 
 // Now install the db structure
@@ -80,8 +79,7 @@ try {
 } catch (Exception $ex) {
 	echo "\n\nError!  Removing configuration file.\n";
 	unlink($configLocation);
-	echo "File removed - this is the error we ran into:\n";
-	echo $ex->getMessage() . "\n";
+	throw $ex;
 }
 
 function loadFile($file) {
