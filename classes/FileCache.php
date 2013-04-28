@@ -19,7 +19,7 @@
 /**
  * FileCache for zKillboard (Basically copies what Memcached does)
  */
-class FileCache
+class FileCache extends AbstractCache
 {
 	/**
 	 * @param $cacheDir the default cache dir
@@ -41,7 +41,7 @@ class FileCache
 	 * @param $key
 	 * @return array
 	 */
-	function get($key)
+	public function get($key)
 	{
 		if(file_exists($this->cacheDir.$key))
 		{
@@ -69,9 +69,9 @@ class FileCache
 	 * 
 	 * return bool
 	 */
-	function set($key, $value, $timeout)
+	public function set($key, $value, $timeout)
 	{
-		return self::setData($key, $value, $timeout);
+		return self::setData($key, $value, $timeout) !== false;
 	}
 
 	/**
@@ -82,15 +82,16 @@ class FileCache
 	 * @param $timeout
 	 * @return array
 	 */
-	function replace($key, $value, $timeout)
+	public function replace($key, $value, $timeout)
 	{
 		if(file_exists($this->cacheDir.$key))
 		{
 			unlink($this->cacheDir.$key);
-			return self::setData($key, $value, $timeout);
+			if(self::setData($key, $value, $timeout) !== false)
+				return true;
 		}
-		else
-			return false;
+
+		return false;
 	}
 
 	/**
@@ -99,7 +100,7 @@ class FileCache
 	 * @param $key
 	 * @return bool
 	 */
-	function delete($key, $timeout)
+	public function delete($key)
 	{
 		try
 		{
@@ -118,7 +119,7 @@ class FileCache
 	 * @param $key
 	 * @return bool
 	 */
-	function increment($key, $timeout)
+	public function increment($key, $step = 1, $timeout = 0)
 	{
 		$data = self::getData($key);
 		$data = json_decode($data["data"], true);
@@ -126,7 +127,7 @@ class FileCache
 		try
 		{
 			unlink($this->cacheDir.$key);
-			return self::setData($key, $data+1);
+			return self::setData($key, $data+$step);
 		}
 		catch (Exception $e)
 		{
@@ -140,7 +141,7 @@ class FileCache
 	 * @param $key
 	 * @return bool
 	 */
-	function decrement($key, $timeout)
+	public function decrement($key, $step = 1, $timeout = 0)
 	{
 		$data = self::getData($key);
 		$data = json_decode($data["data"], true);
@@ -148,12 +149,17 @@ class FileCache
 		try
 		{
 			unlink($this->cacheDir.$key);
-			return self::setData($key, $data-1);
+			return self::setData($key, $data-$step);
 		}
 		catch (Exception $e)
 		{
 			return false;
 		}
+	}
+
+	public function flush()
+	{
+		return false; //TODO: Delete all files
 	}
 
 	/**
@@ -179,7 +185,7 @@ class FileCache
 		{
 			return false;
 		}
-		return true;
+		return $value;
 	}
 
 	/**

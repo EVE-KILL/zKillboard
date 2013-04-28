@@ -33,23 +33,26 @@ class Cache
 	{
 		global $cache, $memcacheServer, $memcachePort;
 
-		if ($cache == null) {
-			if(extension_loaded("Memcache"))
+		if ($cache == null)
+		{
+			if(extension_loaded("apc"))
 			{
-				$cache = new MemCache();
-				$cache->connect($memcacheServer, $memcachePort);
+				$cache = new ApcCache();
 			}
-			elseif(extension_loaded("Memcached"))
+			else if(extension_loaded("Memcache"))
 			{
-				$cache = new Memcached();
-				$cache->addServer($memcacheServer, $memcachePort);
+				$cache = new MemcacheCache();
+			}
+			else if(extension_loaded("Memcached"))
+			{
+				$cache = new MemcachedCache();
 			}
 			else
 			{
 				$cache = new FileCache();
-				$cache->cacheDir = "cache/queryCache/";
 			}
 		}
+
 		return $cache;
 	}
 
@@ -64,26 +67,7 @@ class Cache
 	public static function set($key, $value, $timeout = '3600')
 	{
 		$cache = Cache::getCache();
-
-		// This is silly, but seeing as replace and set for memcache wants to know if it should package it or not, and memcached doesn't want to know, this is how it has to be :\
-		if(extension_loaded("Memcache"))
-		{
-			$result = $cache->replace($key, $value, 0, time() + $timeout);
-			if ($result === FALSE)
-				$result = $cache->set($key, $value, 0, time() + $timeout);
-			if ($result !== TRUE && $result !== FALSE)
-				return false;
-			return true;
-		}
-		else
-		{
-			$result = $cache->replace($key, $value, time() + $timeout);
-			if ($result === FALSE)
-				$result = $cache->set($key, $value, time() + $timeout);
-			if ($result !== TRUE && $result !== FALSE)
-				return false;
-			return true;
-		}
+		return $cache->set($key, $value, $timeout);
 	}
 
 	/**
@@ -95,21 +79,33 @@ class Cache
 	public static function get($key)
 	{
 		$cache = Cache::getCache();
-		$value = $cache->get($key);
-		return $value;
+		return $cache->get($key);
 	}
 
 	/**
 	 * Deletes data from the cache
 	 * 
 	 * @param $key
-	 * @param $timeout (This only works for Memcached, file cache flat out ignores it)
 	 * @return bool
 	 */
-	public static function delete($key, $timeout = 0)
+	public static function delete($key)
 	{
 		$cache = Cache::getCache();
-		return $cache->delete($key, $timeout);
+		return $cache->delete($key);
+	}
+
+	/**
+	 * Replace a value, if it exists
+	 *
+	 * @param $key
+	 * @param $value
+	 * @param $timeout
+	 * @return bool
+	 */
+	public static function replace($key, $value, $timeout = '3600')
+	{
+		$cache = Cache::getCache();
+		return $cache->replace($key, $value, $timeout);
 	}
 
 	/**
@@ -117,12 +113,12 @@ class Cache
 	 * 
 	 * @param $key
 	 * @param $timeout (This only works for Memcached, file cache flat out ignores it)
+	 * @return new value on success, else false
 	 */
 	public static function increment($key, $timeout = 3600)
 	{
 		$cache = Cache::getCache();
-		$cache->add($key, 0, 0, $timeout);
-		return $cache->increment($key);
+		return $cache->increment($key, 1, $timeout);
 	}
 
 	/**
@@ -130,11 +126,22 @@ class Cache
 	 * 
 	 * @param $key
 	 * @param $timeout (This only works for Memcached, file cache flat out ignores it)
+	 * @return new value on success, else false
 	 */
 	public static function decrement($key, $timeout = 3600)
 	{
 		$cache = Cache::getCache();
-		$cache->add($key, 0, $timeout);
-		return $cache->decrement($key);
+		return $cache->decrement($key, 1, $timeout);
+	}
+	
+	/**
+	 * Flush the Cache
+	 *
+	 * @return bool
+	 */
+	public static function flush()
+	{
+		$cache = Cache::getCache();
+		return $cache->flush();
 	}
 }
