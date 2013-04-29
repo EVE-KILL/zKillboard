@@ -107,6 +107,29 @@ try {
 	throw $ex;
 }
 
+if(strtolower(prompt("Do you want to migrate kills from an existing EDK installation? (experimental)", "y/N")) == "y")
+{
+	$edkPath = prompt("Root path of your edk installation?");
+	if($edkPath)
+	{
+		$cmd = "";
+
+		if(defined("PHP_BINARY"))
+			$cmd = PHP_BINARY . " ";
+		else
+			$cmd = "php ";
+
+		$cmd .= escapeshellarg("$base/../util/edk_to_zkb.php") . " ";
+		$cmd .= escapeshellarg($edkPath) . " ";
+		$cmd .= escapeshellarg($settings["dbhost"]) . " ";
+		$cmd .= escapeshellarg($settings["dbuser"]) . " ";
+		$cmd .= escapeshellarg($settings["dbpassword"]) . " ";
+		$cmd .= escapeshellarg($settings["dbname"]);
+
+		passthru($cmd);
+	}
+}
+
 function loadFile($file) {
 	if (Util::endsWith($file, ".gz")) $handle = gzopen($file, "r");
 	else $handle = fopen($file, "r");
