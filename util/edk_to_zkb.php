@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_NOTICE);
+
 if(PHP_SAPI != "cli")
     die("");
 
@@ -86,7 +88,7 @@ foreach($rows as $row)
 		$kill["victim"]["allianceName"] = $edkKill->getVictimAllianceName();
 	}
 
-	if(in_array($edkKill->getVictimShip()->getClass(), array(35, 36, 37, 38)))
+	if(in_array($edkKill->getVictimShip()->getClass()->getID(), array(35, 36, 37, 38)))
 	{
 		if($edkKill->getVictimName() != $edkKill->getSystem()->getName())
 		{
@@ -329,7 +331,7 @@ function processItem($edkitem, $typeId, $locId, $slot, $destQty, $dropQty)
 					"qtyDropped" => $dropQty,
 					"qtyDestroyed" => $destQty,
 					"lGrp" => $lGrp,
-					"lSize" => ($i_usedgroup == 481 ? 0 : $edkitem->get_ammo_size($edkitem->getName())),
+					"lSize" => ($lGrp == 481 ? 0 : $edkitem->get_ammo_size($edkitem->getName())),
 					);
 
 				$item = null;
