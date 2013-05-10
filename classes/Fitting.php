@@ -94,21 +94,16 @@ class Fitting
 		return trim($eft);
 	}
 
-public static function DNA($array,$ship){
-	$goodspots = array("High Slots","Rigs","Low Slots","Mid Slots","Drone Bay");
-        $fit="";
-        $fit.= $ship.":";
-        foreach($array as $item){
-                if (in_array($item["flagName"] ,$goodspots)){
-                //print_r($item);
-                if (($item["qtyDropped"] + $item["qtyDestroyed"])>1){
-                        $fit .= $item["typeID"].";".($item["qtyDropped"] + $item["qtyDestroyed"]).":";
-                }else{
-                        $fit.= $item["typeID"].";1:";
-                }
-                }
-        }
-        $fit .= ":";
-        return $fit;
-        }
+  public static function DNA($array,$ship){
+    $goodspots = array("High Slots","Rigs","Low Slots","Mid Slots","Drone Bay");
+    $fit="";
+    $fit.= $ship.":";
+    foreach($array as $item){
+      if (in_array($item["flagName"] ,$goodspots)){
+        $fit .= $item["typeID"].";".($item["qtyDropped"] + $item["qtyDestroyed"]).":";
+      }
+    }
+    $fit .= ":";
+    return $fit;
+  }
 }
