@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class EFT
+class Fitting
 {
-	public static function getText($array)
+	public static function EFT($array)
 	{
 		$eft = "";
 		$item = "";
@@ -94,4 +94,22 @@ class EFT
 		}
 		return trim($eft);
 	}
+
+public static function DNA($array,$ship){
+        $goodspots = array("High Slots","Rigs","Low Slots","Mid Slots");
+        $fit="";
+        $fit.= $ship.":";
+        foreach($array as $item){
+                if (in_array($item["flagName"] ,$goodspots)){
+                //print_r($item);
+                if (($item["qtyDropped"] + $item["qtyDestroyed"])>1){
+                        $fit .= $item["typeID"].";".($item["qtyDropped"] + $item["qtyDestroyed"]).":";
+                }else{
+                        $fit.= $item["typeID"].":";
+                }
+                }
+        }
+        $fit .= ":";
+        return $fit;
+        }
 }
