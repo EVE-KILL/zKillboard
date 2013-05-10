@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 class Fitting
 {
 	public static function EFT($array)
@@ -96,7 +95,7 @@ class Fitting
 	}
 
 public static function DNA($array,$ship){
-        $goodspots = array("High Slots","Rigs","Low Slots","Mid Slots");
+	$goodspots = array("High Slots","Rigs","Low Slots","Mid Slots","Drone Bay");
         $fit="";
         $fit.= $ship.":";
         foreach($array as $item){
@@ -105,7 +104,7 @@ public static function DNA($array,$ship){
                 if (($item["qtyDropped"] + $item["qtyDestroyed"])>1){
                         $fit .= $item["typeID"].";".($item["qtyDropped"] + $item["qtyDestroyed"]).":";
                 }else{
-                        $fit.= $item["typeID"].":";
+                        $fit.= $item["typeID"].";1:";
                 }
                 }
         }
