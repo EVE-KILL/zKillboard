@@ -22,3 +22,26 @@
         </table>
     </fieldset>
 </form>
+<form class="well" name="ddmonthyear" method="post" action="/account/killdetail/">
+    <fieldset>
+        <table class="table table-condensed">
+            <tbody class="pull-left">
+      <tr>
+        <td>
+          <select name="ddmonthyear">
+            {% if data.ddmonthyear == "true" %}
+                        <option value="true" selected>Day</option>
+            <option value="false">Month</option>
+            {% else %}
+            <option value="true">Day</option>
+                        <option value="false" selected>Month</option>
+            {% endif %}
+          </select>
+        </td>
+      </tr>
+            <tr><td><input type="submit" class="btn btn-primary" value="Split kills by Day / Month"></td></tr>
+            </tbody>
+        </table>
+    </fieldset>
+</form>
+

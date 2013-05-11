@@ -26,8 +26,12 @@
 				{% if killdata.info.killID < 0 %}
 				<li><a data-toggle="modal" data-target="#report" href="#">Report ({{ extra.reports }})</a></li>
 				{% endif %}
+        {% if eveigb == true %}
+        <li><a data-toggle="modal" onclick="CCPEVE.showFitting('{{ extra.dnatext}}');"= href="#">DNA</a></li>
+        {%else%}
 				<li><a data-toggle="modal" data-target="#DNA" href="#">DNA</a></li>
-				<li><a data-toggle="modal" data-target="#EFT" href="#">EFT</a></li>
+				{% endif %}
+        <li><a data-toggle="modal" data-target="#EFT" href="#">EFT</a></li>
 				<li><a data-toggle="modal" data-target="#rawMail" href="#">Killmail</a></li>
 				<li class="hidden-desktop"><a href="/detail/{{ killdata.info.killID }}/shiptypes/">Ship Types ({{ extra.involvedshipscount }})</a></li>
 				<li><a href="/related/{{ killdata.info.solarSystemID }}/{{ extra.relatedtime }}/">Related Kills</a></li>
@@ -168,7 +172,7 @@
 		</form>
 	</div>
 </div>
-
+{% if eveigb != true %}
 <div class="modal hide fade" id="DNA">
 	<div class="modal-header">
 	<h3>DNA</h3>
@@ -180,14 +184,12 @@
 		<tr><td>
 		<textarea onClick="this.select();" class="fitting span5" rows="2" id="dna" name="dna">{{ extra.dnatext }}</textarea>
 		</td></tr>
-		<tr><td>
-                <button onclick="CCPEVE.showFitting('{{ extra.dnatext}}');" class="btn btn-primary">Ingame Fitting</button>
-                </td></tr>
 		<tr><td><a href="#" class="btn btn-primary" data-dismiss="modal">Close</a></td></tr>
 		</table>
 		</form>
 	</div>
 </div>
+{% endif %}
 <div class="modal hide fade" id="EFT">
 	<div class="modal-header">
 	<h3>EFT</h3>

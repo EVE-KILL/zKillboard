@@ -46,6 +46,7 @@ if($_POST)
 	$entity = "";
 	$entitytype = "";
 	$ddcombine = "";
+  $ddmonthyear = ""; 
     $deleteentityid = "";
     $deleteentitytype = "";
     $entitymetadata = "";
@@ -95,6 +96,8 @@ if($_POST)
 		$entitymetadata = $_POST["entitymetadata"];
 	if(isset($_POST["ddcombine"]))
 		$ddcombine = $_POST["ddcombine"];
+  if(isset($_POST["ddmonthyear"]))
+    $ddmonthyear = $_POST["ddmonthyear"];
     if(isset($_POST["deleteentityid"]))
         $deleteentityid = $_POST["deleteentityid"];
     if(isset($_POST["deleteentitytype"]))
@@ -220,7 +223,8 @@ if($_POST)
 
 	if($ddcombine)
 		UserConfig::set("ddcombine", $ddcombine);
-
+  if($ddmonthyear)
+    UserConfig::set("ddmonthyear",$ddmonthyear);
 }
 
 $data["domains"] = Domains::getUserTrackerDomains($userID);
@@ -239,6 +243,6 @@ $data["userInfo"] = User::getUserInfo();
 $data["currentTheme"] = UserConfig::get("theme", "default");
 $data["timeago"] = UserConfig::get("timeago");
 $data["ddcombine"] = UserConfig::get("ddcombine");
-
+$data["ddmonthyear"] = UserConfig::get("ddmonthyear");
 
 $app->render("account.html", array("data" => $data, "message" => $error, "key" => $key, "reqid" => $reqid));

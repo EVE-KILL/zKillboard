@@ -6,7 +6,9 @@
 </div>
 {% else %}
 {% include 'components/pager.html' %}
-{% set MonthDayYear = '' %}
+{% set CurrentYear = '' %}
+{% set CurrentMonth = '' %}
+{% set CurrentDay = ''%}
 <div class="row">
 <table class="table table-condensed table-striped table-hover span12">
     <thead>
@@ -21,12 +23,28 @@
     </thead>
     <tbody>{% for kill in killList %}
 		{% set shipImageLinkOverride = kill.info.killID %}
-        {% if MonthDayYear != kill.info.MonthDayYear %}
-            {% set MonthDayYear = kill.info.MonthDayYear %}
-        <tr>
-            <td colspan="6" style="text-align: left;"><h4><em>{{ MonthDayYear }}</em></h4></td>
-        </tr>
-        {% endif %}  
+      {% set test = kill.info.MonthDayYear|split(",") %}
+      {% set Year = test[1] %}
+      {% set test = test[0]|split(" ")%}
+      {% set Month = test[0]%}
+      {% set Day = test[1]%}
+      {% if CurrentDay != Day and sessionddmonthyear == "true" %}
+      {% set CurrentDay = Day %}
+      <tr>
+        <td colspan="6" style="text-align: left;"><h4><em>
+         {{Month}} 
+        {{Day}},
+        {{Year}}</em></h4></td>
+      </tr> 
+      {% endif %}
+      {% if CurrentMonth != Month and sessionddmonthyear == "false" %}
+      {% set CurrentMonth = Month %}
+      <tr>
+        <td colspan="6" style="text-align: left;"><h4><em>
+         {{Month}} 
+        {{Year}}</em></h4></td>
+      </tr> 
+      {% endif %} 
         {% set imageSize = 64 %}
         {% set field = kill.victim %}
         {% set lossDisplay = '' %}

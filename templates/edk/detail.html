@@ -26,7 +26,12 @@
 				{% if killdata.info.killID < 0 %}
 				<li><a data-toggle="modal" data-target="#report" href="#">Report ({{ extra.reports }})</a></li>
 				{% endif %}
-				<li><a data-toggle="modal" data-target="#EFT" href="#">EFT</a></li>
+			   {% if eveigb == true %}
+        <li><a data-toggle="modal" onclick="CCPEVE.showFitting('{{ extra.dnatext}}');"= href="#">DNA</a></li>
+        {%else%}
+        <li><a data-toggle="modal" data-target="#DNA" href="#">DNA</a></li>
+        {% endif %}
+      	<li><a data-toggle="modal" data-target="#EFT" href="#">EFT</a></li>
 				<li><a data-toggle="modal" data-target="#rawMail" href="#">Killmail</a></li>
 				<li><a href="/related/{{ killdata.info.solarSystemID }}/{{ extra.relatedtime }}/">Related Kills</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Social <i class="icon-chevron-down"></i></a>
@@ -162,6 +167,24 @@
 		</form>
 	</div>
 </div>
+{% if eveigb != true %}
+<div class="modal hide fade" id="DNA">
+  <div class="modal-header">
+  <h3>DNA</h3>
+    Click to select the text, ctrl+c to copy
+  </div>
+  <div class="modal-body">
+    <form name="myform">
+    <table>
+    <tr><td>
+    <textarea onClick="this.select();" class="fitting span5" rows="2" id="dna" name="dna">{{ extra.dnatext }}</textarea>
+    </td></tr>
+    <tr><td><a href="#" class="btn btn-primary" data-dismiss="modal">Close</a></td></tr>
+    </table>
+    </form>
+  </div>
+</div>
+{% endif %}
 
 <div class="modal hide fade" id="EFT">
 	<div class="modal-header">

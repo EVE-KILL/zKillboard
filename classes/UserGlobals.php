@@ -49,7 +49,8 @@ class UserGlobals extends Twig_Extension
 			$this->addGlobal($result, "defaultCommentCharacter", UserConfig::get("defaultCommentCharacter"));
 			$this->addGlobal($result, "sessiontimeago", UserConfig::get("timeago"));
 			$this->addGlobal($result, "sessionddcombined", UserConfig::get("ddcombine"));
-		}
+		  $this->addGlobal($result, "sessionddmonthyear",UserConfig::get("ddmonthyear"));
+    }
 		$this->addGlobal($result, "killsLastHour", Storage::retrieve("KillsLastHour", 0));
 		return $result;
 	}
