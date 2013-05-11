@@ -60,7 +60,7 @@ function init() {
 	
 	//setup the stomple connection - yay websockets = we should get this from the config setting
 	var client = Stomple.create_client({
-		url : "ws://82.221.99.197:61623/",
+		url : "ws://stomp.zkillboard.com:61623/",
 		destination : "/topic/starmap.systems.active",
 		login : "guest",
 		passcode : "guest"
