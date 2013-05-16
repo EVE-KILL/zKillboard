@@ -17,6 +17,7 @@
  */
 
 $limit = 50;
+$killPages = 10;
 
 switch($type)
 {
@@ -70,4 +71,4 @@ switch($type)
 	break;
 }
 
-$app->render("kills.html", array("kills" => $kills, "type" => $type));
+$app->render("kills.html", array("kills" => $kills, "numPages" => $killPages, "page" => $page, "pageType" => $type));
