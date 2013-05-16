@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% if type %}
-    {% set pageTitle = 'Kills (' ~ firstUpper(type) ~ ')' %}
+{% if pageType %}
+    {% set pageTitle = 'Kills (' ~ firstUpper(pageType) ~ ')' %}
 {% else %}
     {% set pageTitle = 'Kills' %}
 {% endif %}

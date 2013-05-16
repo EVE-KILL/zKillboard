@@ -1,6 +1,14 @@
 {% if not mixed and numPages > 1 %}
 <div class="pull-right">
+    {%if key is defined %}
     {% set pageBase = '/' ~ key ~ '/' ~ id ~ '/' ~ pageType ~ '/page/' %}
+    {% else %}
+      {% if pageType %}
+      {% set pageBase = '/kills/' ~pageType~ '/page/' %}
+      {% else %}
+      {% set pageBase = '/kills/page/' %}
+      {% endif %}
+    {% endif %}
     <div class="pagination">
     <ul>
     {% if page > 1 %}
