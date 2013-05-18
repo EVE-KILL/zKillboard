@@ -1,4 +1,4 @@
-#!/usr/bin/php5
+#!/usr/bin/env php
 <?php
 /* zKillboard
  * Copyright (C) 2012-2013 EVE-KILL Team and EVSCO.
@@ -67,8 +67,8 @@ function listCommands()
 		{
 			if($entry != "." && $entry != ".." && $entry != "base.php" && $entry != "cli_methods.php")
 			{
-				$s1 = split("cli_", $entry);
-				$s2 = split(".php", $s1[1]);
+				$s1 = explode("cli_", $entry);
+				$s2 = explode(".php", $s1[1]);
 				if(sizeof($s2) == 2)
 				{
 					require_once "$dir/$entry";
