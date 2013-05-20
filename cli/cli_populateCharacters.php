@@ -28,6 +28,13 @@ class cli_populateCharacters implements cliCommand
 		return "";
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			60 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		self::populatCharacters();
