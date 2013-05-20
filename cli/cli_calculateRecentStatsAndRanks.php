@@ -43,7 +43,7 @@ class cli_calculateRecentStatsAndRanks implements cliCommand
 			case "ranks":
 				self::ranks();
 			break;
-			
+
 			case "stats":
 				self::stats();
 			break;
@@ -174,13 +174,13 @@ class cli_calculateRecentStatsAndRanks implements cliCommand
 			$exclude = "$column != 0";
 
 			echo " losses ";
-			Db::execute("insert ignore into zz_stats_temporary select killID, '$type', $column, groupID, points, total_price from zz_participants where $exclude and isVictim = 1 and unix_timestamp > (unix_timestamp() - 7776000)");
+			Db::execute("insert ignore into zz_stats_temporary select killID, '$type', $column, groupID, points, total_price from zz_participants where $exclude and isVictim = 1 and unix_timestamp(dttm) > (unix_timestamp() - 7776000)");
 			Db::execute("insert into zz_stats_recent (type, typeID, groupID, lost, pointsLost, iskLost) select groupName, groupNum, groupID, count(killID), sum(points), sum(price) from zz_stats_temporary group by 1, 2, 3");
 
 			if ($calcKills) {
 				echo " kills ";
 				Db::execute("truncate table zz_stats_temporary");
-				Db::execute("insert ignore into zz_stats_temporary select killID, '$type', $column, vGroupID, points, total_price from zz_participants where $exclude and isVictim = 0 and unix_timestamp > (unix_timestamp() - 7776000)");
+				Db::execute("insert ignore into zz_stats_temporary select killID, '$type', $column, vGroupID, points, total_price from zz_participants where $exclude and isVictim = 0 and unix_timestamp(dttm) > (unix_timestamp() - 7776000)");
 				Db::execute("insert into zz_stats_recent (type, typeID, groupID, destroyed, pointsDestroyed, iskDestroyed) (select groupName, groupNum, groupID, count(killID), sum(points), sum(price) from zz_stats_temporary group by 1, 2, 3) on duplicate key update destroyed = values(destroyed), pointsDestroyed = values(pointsDestroyed), iskDestroyed = values(iskDestroyed)");
 			}
 
