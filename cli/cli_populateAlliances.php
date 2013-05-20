@@ -28,6 +28,13 @@ class cli_populateAlliances implements cliCommand
 		return "";
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			28800 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		self::populateAlliances();
@@ -82,6 +89,6 @@ class cli_populateAlliances implements cliCommand
 			Log::log("Unable to pull Alliance XML from API.  Will try again later.");
 			if ($exception != null) throw $exception;
 			throw new Exception("Unable to pull Alliance XML from API.  Will try again later");
-		}	
+		}
 	}
 }

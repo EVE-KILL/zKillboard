@@ -20,6 +20,12 @@
 $cle = "cli" == php_sapi_name();
 if (!$cle) return; // Prevent web execution
 
+if(getenv("SILENT_CLI"))
+{
+    ob_start("obCallback");
+    ob_implicit_flush();
+}
+
 $base = dirname(__FILE__);
 
 require_once "$base/init.php";
@@ -85,4 +91,10 @@ function listCommands()
 	}
 	sort($commands);
 	CLI::out(implode(" ", $commands), true);
+}
+
+function obCallback($buf)
+{
+    // Maybe log it somewhere, but for now just throw it away.
+    return "";
 }

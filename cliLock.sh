@@ -14,7 +14,10 @@ locks=$base/cache/locks/
 mkdir -p $locks 2>/dev/null
 
 # Determine the lock file
-lockFile=$locks/$1.lock
+OIFS="$IFS"
+IFS="."
+lockFile="$locks/$*.lock"
+IFS="$OIFS"
 
 # Execute!
-flock -w 63 $lockFile php $base/cli.php $*
+flock -w 63 $lockFile php $base/cli.php "$@"

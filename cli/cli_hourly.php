@@ -28,6 +28,13 @@ class cli_hourly implements cliCommand
 		return "";
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			3600 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		self::apiPercentage();

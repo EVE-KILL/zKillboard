@@ -28,6 +28,13 @@ class cli_feed implements cliCommand
 		return "add remove list fetch"; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			3600 => "fetch"
+		);
+	}
+
 	public function execute($parameters)
 	{
 		if (sizeof($parameters) == 0 || $parameters[0] == "") CLI::out("Usage: |g|help <command>|n| To see a list of commands, use: |g|list", true);
@@ -120,7 +127,7 @@ class cli_feed implements cliCommand
 							$json = json_encode($kill);
 							$killID = $kill->killID;
 							$source = "zKB Feed Fetch";
-							
+
 							$insertCount += Db::execute("INSERT IGNORE INTO zz_killmails (killID, hash, source, kill_json) VALUES (:killID, :hash, :source, :kill_json)", array(":killID" => $killID, ":hash" => $hash, ":source" => $source, ":kill_json" => $json));
 							Db::execute("UPDATE zz_feeds SET lastFetchTime = :time WHERE url = :url", array(":time" => date("Y-m-d H:i:s"), ":url" => $url));
 						}

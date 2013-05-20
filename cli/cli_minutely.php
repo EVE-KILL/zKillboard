@@ -28,6 +28,13 @@ class cli_minutely implements cliCommand
 		return "killsLastHour cloudFlareRegister cloudFlareDelete fileCacheClean all"; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			60 => "all"
+		);
+	}
+
 	public function execute($parameters)
 	{
 		global $base;

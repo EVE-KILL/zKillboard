@@ -22,10 +22,17 @@ class cli_stompReceive implements cliCommand
 	{
 		return "Receives data from the STOMP server. |w|Beware, this is a persistent script. It's run and forget!.|n| Usage: |g|stompRecieve";
 	}
-	
+
 	public function getAvailMethods()
 	{
 		return ""; // Space seperated list
+	}
+
+	public function getCronInfo()
+	{
+		return array(
+			60 => ""
+		);
 	}
 
 	public function execute($parameters)

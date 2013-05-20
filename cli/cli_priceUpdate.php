@@ -28,6 +28,13 @@ class cli_priceUpdate implements cliCommand
 		return ""; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			86400 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		Db::execute("truncate zz_prices");

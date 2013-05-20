@@ -28,6 +28,13 @@ class cli_parseKills implements cliCommand
 		return ""; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			60 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		CLI::out("|g|Parsing killmails");

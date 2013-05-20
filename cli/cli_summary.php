@@ -28,6 +28,13 @@ class cli_summary implements cliCommand
 		return ""; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			3600 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		$lastActualKills = Db::queryField("select contents count from zz_storage where locker = 'actualKills'", "count", array(), 0);

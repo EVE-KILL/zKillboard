@@ -28,6 +28,13 @@ class cli_calculateRecentStatsAndRanks implements cliCommand
 		return "ranks stats all"; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			86400 => "stats"
+		);
+	}
+
 	public function execute($parameters)
 	{
 		if (sizeof($parameters) == 0 || $parameters[0] == "") CLI::out("Usage: |g|recentStatsAndRanks <type>|n| To see a list of commands, use: |g|methods recentStatsAndRanks", true);

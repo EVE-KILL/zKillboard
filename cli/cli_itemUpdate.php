@@ -28,6 +28,13 @@ class cli_itemUpdate implements cliCommand
 		return ""; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			21600 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		//Db::execute("insert ignore into ccp_invTypes (typeID, typeName) select distinct shipTypeID, concat('TypeID ', shipTypeID) from zz_participants");

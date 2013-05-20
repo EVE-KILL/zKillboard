@@ -28,6 +28,13 @@ class cli_p120s implements cliCommand
 		return ""; // Space seperated list
 	}
 
+	public function getCronInfo()
+	{
+		return array(
+			60 => ""
+		);
+	}
+
 	public function execute($parameters)
 	{
 		$api120 = Db::query("select * from zz_api_characters where errorCode in (120)", array(), 0);
@@ -55,7 +62,7 @@ class cli_p120s implements cliCommand
 						$beforeKillID = substr($msg, 0, $pos);
 						try {
 							$result = $pheal->KillLog(array('characterID' => $charID, "beforeKillID" => $beforeKillID));
-						} catch (Exception $ex) { 
+						} catch (Exception $ex) {
 							Api::handleApiException($keyID, $charID, $ex);
 							continue;
 						}
