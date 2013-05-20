@@ -73,6 +73,40 @@ Installation is currently command line only on linux consoles. Other methods are
 5. Issue `zkillboard list` and enjoy the zkillboard cli interface, with full tab completion
 
 ## Cronjobs
+
+zKillboard comes with a script that automates the cron execution.
+It keeps track of when each job has been run and how frequently it needs to be executed.
+Just run it every minute via cron or a similar system:
+
+- * * * * * /var/killboard/zkillboard.com/cron.php >/whatever/log/you/like.txt 2>&1
+
+If you're not happy with the default timeouts, or want to disable/enable some jobs entirely, you can use the cron.overrides file.
+The cron.overrides file has to be placed into the zKB root dir, next to the cron.php script. It's a simpel json file, with the following format:
+
+```json
+{
+    "commandName":{
+        "timeoutInSeconds":"arguments"
+    }
+}
+```
+
+For example the following would disable stompReceive entirely, and increase the timeout for apiFetch and parseKills to 5 minutes:
+
+```json
+{
+    "stompReceive":{},
+    "apiFetch":{
+        "300":""
+    },
+    "parseKills":{
+        "300":""
+    }
+}
+```
+
+If you don't want to use the automated cron script, you can run each command manualy in your crontab:
+
 - * * * * * /var/killboard/zkillboard.com/cliLock.sh minutely all
 - * * * * * /var/killboard/zkillboard.com/cliLock.sh apiFetch
 - * * * * * /var/killboard/zkillboard.com/cliLock.sh parseKills
