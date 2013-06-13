@@ -49,14 +49,12 @@ class cli_stompSend implements cliCommand
 					$lastFetch = max($lastFetch, $kill["insertTime"]);
 					if(!empty($kill["kill_json"]))
 					{
-						$stomp->begin($kill["killID"]);
 						if($kill["killID"] > 0)
-							$stomp->send(join(",", self::Destinations($kill["kill_json"])), $kill["kill_json"], array("transaction" => $kill["killID"]));
+							$stomp->send(join(",", self::Destinations($kill["kill_json"])), $kill["kill_json"]);
 
 						$data = json_decode($kill["kill_json"], true);
 						$json = json_encode(array("solarSystemID" => $data["solarSystemID"], "killID" => $data["killID"], "shipTypeID" => $data["victim"]["shipTypeID"], "killTime" => $data["killTime"]));
-						$stomp->send("/topic/starmap.systems.active", $json, array("transaction" => $kill["killID"]));
-						$stomp->commit($kill["killID"]);
+						$stomp->send("/topic/starmap.systems.active", $json);
 					}
 				}
 				Storage::store($stompKey, $lastFetch);
