@@ -185,6 +185,9 @@ class FileCache extends AbstractCache
 
 		try
 		{
+			// fix, so timeout will be timestamp based
+			$timeout= time() + $timeout;
+
 			$data = $timeout."%".json_encode($value);
 			file_put_contents($this->cacheDir.sha1($key), $data);
 		}
@@ -203,7 +206,8 @@ class FileCache extends AbstractCache
 	 */
 	private function getData($key)
 	{
-		$data = file_get_contents($this->cacheDir.sha1($key));
+		// @todo real error handling, not just surpression.
+		$data = @file_get_contents($this->cacheDir.sha1($key));
 		$f = explode("%", $data);
 		$age = array_shift($f);
 		$data = implode($f);
