@@ -32,12 +32,13 @@ out("All done, enjoy your update!");
 function loadFile($file, $table) {
     if (Util::endsWith($file, ".gz")) $handle = gzopen($file, "r");
     else $handle = fopen($file, "r");
-
-	if (Util::startsWith($table, "ccp_")) {
-		Db::execute("drop table $table");
-	} else {
-		Db::execute("alter table $table rename old_$table");
-	}
+  if(Db::queryRow("SHOW TABLES LIKE'$table'")!= null){ //Check to see if we are adding new tables
+	  if (Util::startsWith($table, "ccp_")) {
+		  Db::execute("drop table $table");
+	  } else {
+		  Db::execute("alter table $table rename old_$table");
+	  }
+  }
 
 
     $query = ""; 
@@ -50,11 +51,12 @@ function loadFile($file, $table) {
         }   
     }   
     fclose($handle);
-
-	if (!Util::startsWith($table, "ccp_")) {
-		Db::execute("insert into $table select * from old_$table");
-		Db::execute("drop table old_$table");
-	}
+  if (Db::queryRow("SHOW TABLES LIKE 'old_$table'")!= null){ // Check again to see if the old_table is there
+	  if (!Util::startsWith($table, "ccp_")) {
+		  Db::execute("insert into $table select * from old_$table");
+		  Db::execute("drop table old_$table");
+	  }
+  }
 }
 
 function out($message, $die = false, $newline = true)
