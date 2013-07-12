@@ -141,7 +141,7 @@ $app->map("/moderator(/:req)(/:id)/", function ($req = NULL, $id = NULL) use ($a
 })->via("GET", "POST");
 
 // Admin
-$app->map("/admin(/:req)/", function ($req = "users") use ($app) {
+$app->map("/admin(/:req)(/:id)/", function ($req = NULL,$id=NULL) use ($app) {
     global $cookie_name, $cookie_time;
     include( "view/admin.php" );
 })->via("GET", "POST");

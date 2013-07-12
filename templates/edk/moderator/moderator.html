@@ -1,37 +1,45 @@
 {% extends "base.html" %}
-
-{% set pageTitle = 'Moderator' %}
-{% block title %}{% include 'components/title.html' %}{% endblock %}
-
+{% block title %}
+  {% set pageTitle = 'Moderator' %}
+  {% include 'components/title.html' %}
+{% endblock %}
 {% block content %}
-	<h1>Moderator Panel</h1>
+  {% block panelheader %}
+	  <h1>Moderator Panel</h1>
+  {% endblock %}
 	{% if message %}
 		<div class="alert alert-{{ messagetype }} fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}</div>
 	{% endif %}
-
 	<div class="navbar">
 		<div class="navbar-inner">
 			<ul class="nav">
-                <li class="{{ isActive('Tickets', key) }}"><a href="/moderator/tickets/">Tickets</a></li>
-                <li class="{{ isActive('revokes', key) }}"><a href="/moderator/revokes/">Revokes</a></li>
-				<li class="{{ isActive('users', key) }}"><a href="/moderator/users/">Users</a></li>
-				<li class="{{ isActive('reportedkills', key) }}"><a href="/moderator/reportedkills/">Reported Kills</a></li>
-			</ul>
+        <li class="{{ isActive('users', key) }}"><a href="/{{url}}/users/">Users</a></li>
+        <li class="{{ isActive('revokes', key) }}"><a href="/{{url}}/revokes/">Revokes</a></li>
+				{% block modonly %}
+          <li class="{{ isActive('reportedkills', key) }}"><a href="/{{url}}/reportedkills/">Reported Kills</a></li>
+		      <li class="{{ isActive('Tickets', key) }}"><a href ="/{{url}}/tickets/" >Tickets</a></li>
+        {% endblock %}
+        {% block menuitems %}
+        {% endblock %}
+    	</ul>
 		</div>
 	</div>
 	{% if key == 'tickets' and id != 0 %}
-		{% include "moderator/ticket_view.html" %}
+		{% include url~"/ticket_view.html" %}
 	{% elseif key == 'tickets' %}
-        {% include "moderator/tickets.html" %}
+    {% include url~"/tickets.html" %}
 	{% elseif key == 'revokes' %}
-		{% include "moderator/revokes.html" %}
+		{% include url~"/revokes.html" %}
 	{% elseif key == 'users' %}
-		{% include "moderator/users.html" %}
+		{% include url~"/users.html" %} 
 	{% elseif key == 'reportedkills' and id != 0 %}
-		{% include "moderator/reportedkills_view.html" %}
+		{% include url~"/reportedkills_view.html" %}
 	{% elseif key == 'reportedkills' %}
-		{% include "moderator/reportedkills.html" %}
-	{% endif %}
+		{% include url~"/reportedkills.html" %}
+  {% elseif key == 'susers' %}
+    {% include url~"/susers.html" %}
+  {% endif %}
+ {% block menuinclude %} {% endblock %}
 {% endblock %}
 
 {% block style %}

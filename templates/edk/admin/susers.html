@@ -1,0 +1,37 @@
+{% extends "/moderator/susers.html" %}
+{% block adminsettings %}
+<h2> Admin settings </h2>
+<form name="changemod" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+Moderator:
+<input type="hidden" name="userID" value="{{info[0].id}}">
+
+<button type="submit" class="btn"
+{% if info[0].moderator == 1 %}
+disabled
+{% endif %}
+ value="0" name="grantmoderator" onclick="return confirm('Give Mod Power?');">Moderator </button>
+<button type="submit" class="btn"
+{% if info[0].moderator == 0 %}
+disabled
+{% endif %}
+ value="1" name="revokemoderator" onclick="return confirm('Remove Mod Power?');">Remove Moderator </button>
+</form>
+<form name="changemod" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+Admin:
+<input type="hidden" name="userID" value="{{info[0].id}}">
+
+<button type="submit" class="btn"
+{% if info[0].admin == 1 %}
+disabled
+{% endif %}
+ value="0" name="grantadmin" onclick="return confirm('Give User Admin Power?');">Admin </button>
+<button type="submit" class="btn"
+{% if info[0].admin == 0 %}
+disabled
+{% endif %}
+ value="1" name="revokeadmin" onclick="return confirm('Remove User Admin Power?');">Remove Admin</button>
+</form>
+
+
+{% endblock %}  
+

@@ -31,7 +31,7 @@ if($_POST)
 	$reply = NULL;
 	$revokeaccess = NULL;
 	$grantaccess = NULL;
-	$reason = NULL;
+	$reason = "Default should change";
 	$report = NULL;
 	$delete = NULL;
 	
@@ -51,7 +51,17 @@ if($_POST)
 		$userID = $_POST["userID"];
 	if(isset($_POST["delete"]))
 		$delete = $_POST["delete"];
-		
+	  if(isset($_POST["userID"]))
+    $userID = $_POST["userID"];
+  if(isset($_POST["email"]))
+    $email = $_POST["email"];
+  if(isset($_POST["resetpassword"]))
+    $password = 0;
+  if(isset($_POST["manualpull"]))
+    $manualpull = $_POST["manualpull"];
+  if(isset($_POST["deleteapi"]))
+    $deleteapi = $_POST["deleteapi"];
+	
 	if(isset($status))
 	{
 		Db::execute("UPDATE zz_tickets SET status = :status WHERE id = :id", array(":status" => $status, ":id" => $id));
@@ -93,15 +103,33 @@ if($_POST)
 	}
 	if(isset($grantaccess) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET revoked = :access WHERE id = :id", array(":id" => $userID, ":access" => 0));
-		$message = "User has been granted access to the site";
+		Moderator::setUnRevoked($userID);
+    $message = "User has been granted access to the site";
 	}
 	if(isset($revokeaccess) && isset($userID) && isset($reason))
 	{
-		Db::execute("UPDATE zz_users SET revoked = :access WHERE id = :id", array(":id" => $userID, ":access" => 1));
-		Db::execute("UPDATE zz_users SET revoked_reason = :reason WHERE id = :id", array(":id" => $userID, ":reason" => $reason));
+    Moderator::setRevoked($userID,$reason);
 		$message = "User has had access to the site revoked";
 	}
+  if(isset($email) && isset($userID))
+  {
+    Moderator::setEmail($userID,$email);
+    $message = "User has had there email changed";
+  }
+  if(isset($password) && isset($userID))
+  {
+   $password =  Moderator::setPassword($userID);
+    $message = "User has had there password change to:".$password;
+  }
+  if(isset($manualpull) )
+  {
+  $message = "ah";
+  }
+  if(isset($deleteapi)){
+    Api::deleteKey($deleteapi);
+    $message = "The Api had been deleted";
+  }
+
 }
 
 if ($req == "") {
@@ -125,7 +153,7 @@ elseif($req == "tickets")
 }
 elseif($req == "users")
 {
-	$info = Db::query("SELECT * FROM zz_users order by username", array(), 0);
+	$info = Moderator::getUsers();
 }
 elseif($req == "revokes")
 {
@@ -145,5 +173,27 @@ elseif($req == "reportedkills")
 			$info[$key]["tags"] = explode(",", $val["tags"]);
 	}
 }
+elseif ($req == "susers"){
+if(isset($id)){
+    $info = Moderator::getUserInfo($id);
+    if(!isset($info[0])){
+      $req = "users";
+      $message = "No user found with and if of".$id;
+    }else{
+      if( $info[0]["admin"] == 1 or $info[0]["moderator"] == 1){
+        $req = "users";
+        $message = "No editing other Mod/ Admins ";
+        $id = NULL;
+        $info = Moderator::getUsers();
+      }else{
+        $api =  Api::getKeys($id);
+        $info["api"]=$api;
+      }
+    }
+  }else{
+  $app->redirect("/moderator/users/");
 
-$app->render("moderator/moderator.html", array("id" => $id, "info" => $info, "key" => $req, "message" => $message));
+  }
+
+}
+$app->render("moderator/moderator.html", array("id" => $id, "info" => $info, "key" => $req, "url"=>"moderator", "message" => $message));

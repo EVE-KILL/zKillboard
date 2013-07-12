@@ -1,3 +1,5 @@
+<strong><a href="/detail/{{ info.ticket.0.killID }}/" target="_blank">KillID: {{ info.ticket.0.killID }}</a></strong>
+<hr/>
 <table><tr><td><form name="statusform" method="post" action="/moderator/reportedkills/{{ id }}/">
 	{% if info.ticket.0.status != 0 %}
 	<input id="status" name="status" value="0" type="hidden">
@@ -13,7 +15,7 @@
 </form></td></tr>
 </table>
 <h3>Ticket By: <small>{{ info.ticket.0.name }}</small> Posted The: <small>{{ info.ticket.0.datePosted }}</small></h3>
-<div class="well">{{ info.ticket.0.ticket|raw }}</div>
+<div class="well"><pre>{{ info.ticket.0.ticket|raw }}</pre></div>
 <hr/>
 
 {% if info.replies is not empty %}
@@ -29,7 +31,7 @@
 			{% for data in info.replies %}
 			<tr>
 				<td><strong>{{ data.name }} {% if data.moderator %}<span class="label label-info pull-right">Moderator</span>{% endif %}</strong></td>
-				<td>{{ data.reply|raw }}</td>
+				<td><pre>{{ data.reply|raw }}</pre></td>
 			</tr>
 			{% endfor %}
 		</tbody>

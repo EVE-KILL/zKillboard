@@ -1,49 +1,25 @@
-{% extends "base.html" %}
+{% extends "/moderator/moderator.html" %}
 
-{% set pageTitle = 'Admin' %}
-{% block title %}{% include 'components/title.html' %}{% endblock %}
-
-{% block content %}
-	<h1>Admin Panel</h1>
-	{% if message %}
-		<div class="alert alert-{{ messagetype }} fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}</div>
-	{% endif %}
-
-	<div class="navbar">
-		<div class="navbar-inner">
-			<ul class="nav">
-                <li class="{{ isActive('users', key) }}"><a href="/admin/users/">Users</a></li>
-                <li class="{{ isActive('revokes', key) }}"><a href="/admin/revokes/">Revokes</a></li>
-                <li class="{{ isActive('irc', key) }}"><a href="/admin/irc/">IRC Users</a></li>
-                <li class="{{ isActive('commandlog', key) }}"><a href="/admin/commandlog/">Command Log</a></li>
-			</ul>
-		</div>
-	</div>
-	{% if key == 'users' %}
-        {% include "admin/users.html" %}
-	{% elseif key == 'blog' %}
-		{% include "admin/blog.html" %}
-	{% elseif key == 'revokes' %}
-		{% include "admin/revokes.html" %}
-    {% elseif key == 'irc' %}
-        {% include "admin/irc.html" %}
-    {% elseif key == 'commandlog' %}
-        {% include "admin/commandlog.html" %}
-	{% endif %}
+{% block title %}
+  {% set pageTitle = 'Admin' %}
+  {% include 'components/title.html' %}
 {% endblock %}
 
-{% block script %}
-<script type="text/javascript">
-$(document).ready(function()
-    {
-        $(".sortableTable").dataTable();
-    });
-</script>
-<script type="text/javascript">
-$(document).on("click", ".open-userid", function () {
-     var myuserID = $(this).data('id');
-     $(".modal-body #userID").val( myuserID );
-    $('#access').modal('show');
-});
-</script>
+{% block panelheader %}
+	<h1>Admin Panel</h1>
+{% endblock %}
+{% block modonly %} 
+{% endblock %}
+{% block menuitems %}	
+  <li class="{{ isActive('irc', key) }}"><a href="/{{url}}/irc/">IRC Users</a></li>
+  <li class="{{ isActive('commandlog', key) }}"><a href="/{{url}}/commandlog/">Command Log</a></li>
+{% endblock %}
+{% block menuinclude %}
+	{% if key == 'blog' %}
+		{% include url~"/blog.html" %}
+  {% elseif key == 'irc' %}
+    {% include url~"/irc.html" %}
+  {% elseif key == 'commandlog' %}
+    {% include url~"/commandlog.html" %}
+  {% endif %}
 {% endblock %}

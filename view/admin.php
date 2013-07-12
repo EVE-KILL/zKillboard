@@ -17,9 +17,9 @@
  */
 
 if (!User::isAdmin()) $app->notFound();
-
+$info=NULL;
 $message = "";
-
+$reason = "default";
 if($_POST)
 {
     if(isset($_POST["ircuserid"]))
@@ -44,7 +44,14 @@ if($_POST)
 		$reason = $_POST["reason"];
 	if(isset($_POST["userID"]))
 		$userID = $_POST["userID"];
-		
+  if(isset($_POST["email"]))
+    $email = $_POST["email"];
+	if(isset($_POST["resetpassword"]))
+    $password = 0;
+  if(isset($_POST["manualpull"]))
+    $manualpull = $_POST["manualpull"];
+  if(isset($_POST["deleteapi"]))
+    $deleteapi = $_POST["deleteapi"];
     if(isset($ircuserid))
     {
         Db::execute("DELETE FROM zz_irc_access WHERE id = :id", array(":id" => $ircuserid));
@@ -57,40 +64,57 @@ if($_POST)
     }
 	if(isset($grantadmin) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET admin = :access WHERE id = :id", array(":id" => $userID, ":access" => 1));
-		$message = "User has been granted admin access";
+		Admin::setAdmin($userID,1);
+    $message = "User has been granted admin access";
 	}
 	if(isset($revokeadmin) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET admin = :access WHERE id = :id", array(":id" => $userID, ":access" => 0));
-		$message = "User has had admin access revoked";
+		Admin::setAdmin($userID,0);
+    $message = "User has had admin access revoked";
 	}
 	if(isset($grantmoderator) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET moderator = :access WHERE id = :id", array(":id" => $userID, ":access" => 1));
+    Admin::setMod($userID,1);
 		$message = "User has been granted moderator access";
 	}
 	if(isset($revokemoderator) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET moderator = :access WHERE id = :id", array(":id" => $userID, ":access" => 0));
+    Admin::setMod($userID,0);
 		$message = "User has had moderator access revoked";
 	}
 	if(isset($grantaccess) && isset($userID))
 	{
-		Db::execute("UPDATE zz_users SET revoked = :access WHERE id = :id", array(":id" => $userID, ":access" => 0));
-		$message = "User has been granted access to the site";
+		Admin::setUnRevoked($userID);
+    $message = "User has been granted access to the site";
 	}
 	if(isset($revokeaccess) && isset($userID) && isset($reason))
 	{
-		Db::execute("UPDATE zz_users SET revoked = :access WHERE id = :id", array(":id" => $userID, ":access" => 1));
-		Db::execute("UPDATE zz_users SET revoked_reason = :reason WHERE id = :id", array(":id" => $userID, ":reason" => $reason));
-		$message = "User has had access to the site revoked";
+		Admin::setRevoked($userID,$reason);
+    $message = "User has had access to the site revoked";
 	}
+  if(isset($email) && isset($userID))
+  {
+    Admin::setEmail($userID,$email);
+    $message = "User has had there email changed";
+  }
+  if(isset($password) && isset($userID))
+  {
+  $password = Admin::setPassword($userID);
+    $message = "User has had there password changed to:".$password;
+  }
+  if(isset($manualpull)  )
+  {
+  $message = "ah";
+  }
+  if(isset($deleteapi)){
+    Api::deleteKey($deleteapi);
+    $message = "The Api had been deleted";
+  }
 }
 
 if($req == "users")
 {
-    $info = Db::query("SELECT * FROM zz_users order by username", array(), 0);
+  $info = Admin::getUsers();
 }
 elseif($req == "blog")
 {
@@ -117,5 +141,23 @@ elseif($req == "email")
 {
     $info = array();
 }
+elseif($req == "susers" )
+{  
+  if(isset($id)){ 
+    $info = Admin::getUserInfo($id);
+    if(!isset($info[0])){
+      $req = "users";
+      $message = "No user found with id ".$id;
+      $info = Admin::getUsers(); 
+    }else{
+      $api =  Api::getKeys($id);    
+      $info["api"]=$api;
+    }
+  }else{
+  $app->redirect("/admin/users/");
 
-$app->render("admin/admin.html", array("info" => $info, "key" => $req, "message" => $message));
+  }
+}else{
+$app->redirect("users/");
+}
+$app->render("admin/admin.html", array("info" => $info, "url" => "admin", "key" => $req, "message" => $message));

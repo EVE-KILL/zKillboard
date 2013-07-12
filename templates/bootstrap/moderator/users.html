@@ -4,27 +4,35 @@
     <th>Username</th>
     <th>Registration Date</th>
     <th>Email</th>
+    <th>Admin</th>
+    <th>Moderator</th>
     <th>Revoke Access</th>
 </thead>
 <tbody>
     {% for data in info %}
         <tr>
-            <td>{{ data.id }}</td>
+            <td><a href="/{{url}}/susers/{{data.id}}/">{{ data.id }}</a></td> 
             <td>{{ data.username }}</td>
             <td>{{ data.dateCreated }}</td>
             <td>{{ data.email }}</td>
-            {% if data.revoked %}
+              {% block useradmin %}<td></td> {% endblock %}    
+              {% block usermod %}<td></td> {% endblock %}          
+   {% if data.revoked %}
                 <td>
-					<form name="grantaccess" method="post" action="/moderator/users/">
+					<form name="grantaccess" method="post" action="/{{url}}/users/">
 						<input id="grantaccess" name="grantaccess" type="hidden" value="1">
 						<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
 						<input type="submit" class="btn btn-primary" value="Grant Access" onclick="return confirm('Are you sure you want to grant access to {{ data.username }}?');">
 					</form>
 				</td>
             {% else %}
+            {% if data.admin or data.moderator %}
+            <td> </td>
+            {% else %}
                 <td>
 					<a data-toggle="modal" data-id="{{ data.id }}" data-toggle="modal" title="Revoke access" class="open-userid btn btn-danger" href="#access">Revoke Access</a>
 				</td>
+            {% endif %} 
             {% endif %}
         </tr>
     {% endfor %}
@@ -37,7 +45,7 @@
     <h3>Revoke Access</h3>
   </div>
     <div class="modal-body">
-		<form name="revokeaccess" method="post" action="/moderator/users/">
+		<form name="revokeaccess" method="post" action="/{{url}}/users/">
 			<input id="revokeaccess" name="revokeaccess" type="hidden" value="1">
 			<input id="userID" name="userID" type="hidden" value="">
 			<textarea id="reason" name="reason"></textarea>
