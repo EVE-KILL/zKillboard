@@ -53,10 +53,6 @@ if($_POST)
 		$delete = $_POST["delete"];
 	  if(isset($_POST["userID"]))
     $userID = $_POST["userID"];
-  if(isset($_POST["email"]))
-    $email = $_POST["email"];
-  if(isset($_POST["resetpassword"]))
-    $password = 0;
   if(isset($_POST["manualpull"]))
     $manualpull = $_POST["manualpull"];
   if(isset($_POST["deleteapi"]))
@@ -111,16 +107,6 @@ if($_POST)
     Moderator::setRevoked($userID,$reason);
 		$message = "User has had access to the site revoked";
 	}
-  if(isset($email) && isset($userID))
-  {
-    Moderator::setEmail($userID,$email);
-    $message = "User has had there email changed";
-  }
-  if(isset($password) && isset($userID))
-  {
-   $password =  Moderator::setPassword($userID);
-    $message = "User has had there password change to:".$password;
-  }
   if(isset($manualpull) )
   {
   $message = "ah";

@@ -13,23 +13,14 @@
       disabled
     {% endif %}
     value="1" name="revokeaccess" onclick="return confirm('Revoke the users priviliages?');">Revoke Access</button>
+   <textarea id="reason" name="reason"> </textarea>
   </form> 
   {% if info[0].revoked == 1 %}
-    <pre>info[0].revoked_reason </pre>
+    <pre>{{info[0].revoked_reason}} </pre>
   {% endif %}
   Name: {{info[0].username}} <br>
-  <form name="changemail" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Email:
-    <input type="hidden" name="userID" value="{{info[0].id}}">
-    <input type="text" name="email" value="{{info[0].email}}">
-    <input type="submit" class="btn" value="Change Email" onclick="return confirm('Change the users email?');">
-  </form>
-  <form name="resetpassword" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Password:
-    <input type="hidden" name="userID" value="{{info[0].id}}">
-    <input id="resetpassword" name="resetpassword" type="hidden" value="0">
-    <input type="submit" class="btn" value="Reset Password" onclick="return confirm('Reset the users password?');">
-  </form> 
+  {% block email %} {% endblock %}
+
   <h2> Eve </h2>
   <h3> API </h3><br> 
   <table class="table table-striped table-hover table-condense">

@@ -1,4 +1,12 @@
 {% extends "/moderator/susers.html" %}
+{% block email %}
+ <form name="changemail" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+    Email:
+    <input type="hidden" name="userID" value="{{info[0].id}}">
+    <input type="text" name="email" value="{{info[0].email}}">
+    <input type="submit" class="btn" value="Change Email" onclick="return confirm('Change the users email?');">
+ </form>
+{% endblock %}
 {% block adminsettings %}
 <h2> Admin settings </h2>
 <form name="changemod" method="post" action="/{{url}}/susers/{{info[0].id}}/">

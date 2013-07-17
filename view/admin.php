@@ -46,8 +46,6 @@ if($_POST)
 		$userID = $_POST["userID"];
   if(isset($_POST["email"]))
     $email = $_POST["email"];
-	if(isset($_POST["resetpassword"]))
-    $password = 0;
   if(isset($_POST["manualpull"]))
     $manualpull = $_POST["manualpull"];
   if(isset($_POST["deleteapi"]))
@@ -96,11 +94,6 @@ if($_POST)
   {
     Admin::setEmail($userID,$email);
     $message = "User has had there email changed";
-  }
-  if(isset($password) && isset($userID))
-  {
-  $password = Admin::setPassword($userID);
-    $message = "User has had there password changed to:".$password;
   }
   if(isset($manualpull)  )
   {
