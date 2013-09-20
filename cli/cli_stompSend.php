@@ -43,7 +43,7 @@ class cli_stompSend implements cliCommand
 		{
 			$time = $timer->stop();
 			$result = Db::query("SELECT killID, insertTime, kill_json FROM zz_killmails WHERE insertTime > :lastFetch ORDER BY killID limit 1000", array(":lastFetch" => $lastFetch), 0);
-			$stomp->begin($time);
+			//$stomp->begin($time);
 			foreach($result as $kill)
 			{
 				$lastFetch = max($lastFetch, $kill["insertTime"]);
@@ -54,16 +54,16 @@ class cli_stompSend implements cliCommand
 						$killID = $kill["killID"];
 						CLI::out("|g|Sending $killID as API verified");
 						foreach (self::Destinations($kill["kill_json"]) as $destination) {
-							$stomp->send($destination, $kill["kill_json"], array("transaction" => $time));
+							$stomp->send($destination, $kill["kill_json"]);
 						}
 					}
 
 					$data = json_decode($kill["kill_json"], true);
 					$json = json_encode(array("solarSystemID" => $data["solarSystemID"], "killID" => $data["killID"], "shipTypeID" => $data["victim"]["shipTypeID"], "killTime" => $data["killTime"]));
-					$stomp->send("/topic/starmap.systems.active", $json, array("transaction" => $time));
+					$stomp->send("/topic/starmap.systems.active", $json);
 				}
 			}
-			$stomp->commit($time);
+			//$stomp->commit($time);
 			Storage::store($stompKey, $lastFetch);
 				if(sizeof($result) > 0)
 				Log::log("Stomped " . sizeof($result) . " killmails");
