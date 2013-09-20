@@ -42,6 +42,7 @@ class cli_stompReceive implements cliCommand
 
 		switch($command)
 		{
+            /*
 			case "register_dsub":
 				global $stompServer, $stompUser, $stompPassword, $baseAddr;
 				$stomp = new Stomp($stompServer, $stompUser, $stompPassword);
@@ -50,18 +51,19 @@ class cli_stompReceive implements cliCommand
 				Storage::store("dsubRegistered", "zkb-".$baseAddr);
 				unset($stomp);
 			break;
+            */
 
 			case "fetch":
-				if(!Storage::retrieve("dsubRegistered"))
+				/*if(!Storage::retrieve("dsubRegistered"))
 				{
 					CLI::out("Please run register_dsub first", true);
 					Log::log("Please run register_dsub first");
-				}
+				}*/
 				global $stompServer, $stompUser, $stompPassword, $baseAddr;
 				$stomp = new Stomp($stompServer, $stompUser, $stompPassword);
 				$stomp->setReadTimeout(10);
-				$destination = "/dsub/zkb-".$baseAddr;
-				$stomp->subscribe($destination);
+				$destination = "/topic/kills";
+				$stomp->subscribe($destination, array("id" => "zkb-".$baseAddr, "persistent" => "true", "ack" => "client"));
 
 				Log::log("StompReceive started");
 				CLI::out("StompReceive started");
