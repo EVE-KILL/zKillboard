@@ -1,17 +1,18 @@
-<div class="pull-left" style="height: 200px;">
 	<h4 style="text-align: center;">{{ topTitle }}</h4>
+	<table class="table table-condensed">
 	{% for data in topSet %}
-		<div style="text-align: center; margin-right: 5px;" class="pull-left span1">
-		{% set imageSize = 64 %}
+		<tr>	
+		{% set imageSize = 32 %}
 		{% set field = data.victim %}
 		{% set shipImageLinkOverride = data.info.killID %}
-		{% include 'components/text_ship.html' %}<br/>
-		{% include 'components/image_ship.html' %}
+		<td>{% include 'components/image_ship.html' %}</td>
+		<td>{% include 'components/text_ship.html' %}</td>
+		<td>
 		{% if showPoints %} {{ data.info.points | number_format(0) }} Points
 		{% else %}{{ formatIsk(data.info.total_price) }} ISK
 		{% endif %}
-		<br/>
-		{% include 'components/text_char.html' %} 
-		</div>
+		</td>
+		<td>{% include 'components/text_char.html' %} </td>
+	</tr>
 	{% endfor %}
-</div>
+	</table>

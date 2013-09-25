@@ -12,8 +12,9 @@
 <div class="row">
 <table class="table table-condensed table-striped table-hover span12">
     <thead>
-        <tr>
-            <th class="span2">Time &amp; Place</th>
+		<tr>
+			<th style="width: 140px;">Time</th>
+            <th class="span2">Place</th>
             <th class="hidden-phone" style="width: 64px; text-align: center;">Ship</th>
             <th class="hidden-tablet hidden-phone" colspan="2" style="text-align: center;">Victim</th>
 			<th class="hidden-desktop" style="text-align: center;">Victim</th>
@@ -45,50 +46,45 @@
         {{Year}}</em></h4></td>
       </tr> 
       {% endif %} 
-        {% set imageSize = 64 %}
+        {% set imageSize = 32 %}
         {% set field = kill.victim %}
         {% set lossDisplay = '' %}
         {% if kill.displayAsLoss == true %}{% set lossDisplay = 'error' %}{% endif %}
-        <tr class="{{lossDisplay}}" onclick="window.location='/detail/{{kill.info.killID}}/'">
+		<tr class="{{lossDisplay}}" onclick="window.location='/detail/{{kill.info.killID}}/'">
+			<td>
+			{% if sessiontimeago == "true" %}<abbr class="timeago" title="{{ kill.info.ISO8601 }}">{{ kill.info.ISO8601}}</abbr>{% else %}{{ kill.info.killTime }}{% endif %}
+			</td>
             <td>
-                {% if sessiontimeago == "true" %}<abbr class="timeago" title="{{ kill.info.ISO8601 }}">{{ kill.info.ISO8601}}</abbr>{% else %}{{ kill.info.killTime }}{% endif %}<br />
                 <a href="/system/{{ kill.info.solarSystemID }}/">{{ kill.info.solarSystemName }}</a> <span style="color: {{ kill.info.systemColorCode }}">{{ "%1.1f"|format(kill.info.solarSystemSecurity) }}</span> <br/>
                 <a href="/region/{{ kill.info.regionID }}/">{{ kill.info.regionName }}</a>
             </td>
             <td class="icon hidden-phone" style="text-align: center;">
                 {% include 'components/image_ship.html' %}
             </td>
-            <td class="hidden-phone hidden-tablet" style="width: 270px;">
+            <td class="hidden-phone hidden-tablet" style="width: 120px;">
                 {% include 'components/image_char.html' %}
                 {% include 'components/image_corp.html' %}
                 {% include 'components/image_alli.html' %}
-                <div class="pull-right">{% include 'components/image_faction.html' %}</div>
             </td>
             <td class="victim" style="vertical-align: top;">
                 <a href="/character/{{ kill.victim.characterID }}/">{{ kill.victim.characterName }}</a> ({{ kill.victim.shipName }})<br />
-                <a href="/corporation/{{ kill.victim.corporationID }}/">{{ kill.victim.corporationName }}</a><br />
+                <a href="/corporation/{{ kill.victim.corporationID }}/">{{ kill.victim.corporationName }}</a>
                 {% if kill.victim.allianceID != 0 %}
-                    <a href="/alliance/{{ kill.victim.allianceID }}/">{{ kill.victim.allianceName }}</a>
-                {% endif %}
-                {% if kill.victim.factionID != 0 %}
-                    {% if kill.victim.allianceID != 0 %} / {% endif %}<a href="/faction/{{ kill.victim.factionID }}/">{{ kill.victim.factionName }}</a>
+                    / <a href="/alliance/{{ kill.victim.allianceID }}/">{{ kill.victim.allianceName }}</a>
                 {% endif %}
             </td>
             <td class="finalBlow hidden-phone" style="vertical-align: top;">
                 <a href="/character/{{ kill.finalBlow.characterID }}/">{{ kill.finalBlow.characterName }}</a> ({{ kill.info.number_involved }})<br />
-                <a href="/corporation/{{ kill.finalBlow.corporationID }}/">{{ kill.finalBlow.corporationName }}</a><br />
+                <a href="/corporation/{{ kill.finalBlow.corporationID }}/">{{ kill.finalBlow.corporationName }}</a>
                 {% if kill.finalBlow.allianceID != 0 %}
-                    <a href="/alliance/{{ kill.finalBlow.allianceID }}/">{{ kill.finalBlow.allianceName }}</a>
-                {% endif %}
-                {% if kill.finalBlow.factionID != 0 %}
-                    {% if kill.finalBlow.allianceID != 0 %} / {% endif %}<a href="/faction/{{ kill.finalBlow.factionID }}/">{{ kill.finalBlow.factionName }}</a>
-                {% endif %}
+                    / <a href="/alliance/{{ kill.finalBlow.allianceID }}/">{{ kill.finalBlow.allianceName }}</a>
+				{% endif %}
             </td>
             <td class="link centered">
                 <a href="/detail/{{ kill.info.killID }}/" class="pull-right">
                     View
                 </a>
-				<br/><br/>
+				<br/>
 				<span class="pull-right" style="font-size: 11px">{{ formatIsk(kill.info.total_price) }}</span>
             </td>
         </tr>

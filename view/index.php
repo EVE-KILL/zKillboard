@@ -40,4 +40,8 @@ $top[] = json_decode(Storage::retrieve("Top3dayChars"), true);
 $top[] = json_decode(Storage::retrieve("Top3dayCorps"), true);
 $top[] = json_decode(Storage::retrieve("Top3dayAlli"), true);
 
-$app->render("index.html", array("topPods" => $topPods, "topIsk" => $topIsk, "topPoints" => $topPoints, "topKillers" => $top));
+// get latest kills
+$killsLimit = 25;
+$kills = Kills::getKills(array("limit" => $killsLimit));
+
+$app->render("index.html", array("topPods" => $topPods, "topIsk" => $topIsk, "topPoints" => $topPoints, "topKillers" => $top, "kills" => $kills));
