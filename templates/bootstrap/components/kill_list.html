@@ -45,7 +45,8 @@
          {{Month}} 
         {{Year}}</em></h4></td>
       </tr> 
-      {% endif %} 
+	  {% endif %} 
+	  	{% set txtLength = 20 %}
         {% set imageSize = 32 %}
         {% set field = kill.victim %}
         {% set lossDisplay = '' %}
@@ -68,16 +69,16 @@
             </td>
             <td class="victim" style="vertical-align: top;">
                 <a href="/character/{{ kill.victim.characterID }}/">{{ kill.victim.characterName }}</a> ({{ kill.victim.shipName }})<br />
-                <a href="/corporation/{{ kill.victim.corporationID }}/">{{ kill.victim.corporationName }}</a>
+                <a href="/corporation/{{ kill.victim.corporationID }}/">{{ shortString(kill.victim.corporationName, txtLength) }}</a>
                 {% if kill.victim.allianceID != 0 %}
-                    / <a href="/alliance/{{ kill.victim.allianceID }}/">{{ kill.victim.allianceName }}</a>
+                    / <a href="/alliance/{{ kill.victim.allianceID }}/">{{ shortString(kill.victim.allianceName, txtLength) }}</a>
                 {% endif %}
             </td>
             <td class="finalBlow hidden-phone" style="vertical-align: top;">
                 <a href="/character/{{ kill.finalBlow.characterID }}/">{{ kill.finalBlow.characterName }}</a> ({{ kill.info.number_involved }})<br />
-                <a href="/corporation/{{ kill.finalBlow.corporationID }}/">{{ kill.finalBlow.corporationName }}</a>
+                <a href="/corporation/{{ kill.finalBlow.corporationID }}/">{{ shortString(kill.finalBlow.corporationName, txtLength) }}</a>
                 {% if kill.finalBlow.allianceID != 0 %}
-                    / <a href="/alliance/{{ kill.finalBlow.allianceID }}/">{{ kill.finalBlow.allianceName }}</a>
+                    / <a href="/alliance/{{ kill.finalBlow.allianceID }}/">{{ shortString(kill.finalBlow.allianceName, txtLength) }}</a>
 				{% endif %}
             </td>
             <td class="link centered">

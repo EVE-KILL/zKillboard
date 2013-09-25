@@ -5,15 +5,15 @@
         <tr>
         {% set imageSize = 32 %}
         {% set field = data %}
-        <td>{{ data.kills|number_format(0) }} Kills</td>
+        <td style="width: 65px;">{{ data.kills|number_format(0) }} Kills</td>
         {% if topSet.type == 'character' %}
-            <td>{% include 'components/image_char.html' %}</td>
+            <td style="width: 35px;">{% include 'components/image_char.html' %}</td>
             <td>{% include 'components/text_char.html' %}</td>
         {% elseif topSet.type == 'corporation' %}
-            <td>{% include 'components/image_corp.html' %}</td>
+            <td style="width: 35px;">{% include 'components/image_corp.html' %}</td>
             <td>{% include 'components/text_corp.html' %}</td>
         {% elseif topSet.type == 'alliance' %}
-            <td>{% include 'components/image_alli.html' %}</td>
+            <td style="width: 35px;">{% include 'components/image_alli.html' %}</td>
             <td>{% include 'components/text_alli.html' %}</td>
         {% endif %}
         </tr>
