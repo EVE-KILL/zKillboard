@@ -60,6 +60,11 @@ $(document).ready(function() {
 		$('#addentity input[name="addentitybox"]').val(data.name);
 		$('#addentity').submit();
 	});
+
+    // prevent firing if window.location in table rows if a link is clicked directly
+	$('.killListRow a').click(function(e) {
+		e.stopPropagation();
+	});
 });
 
 function updateKillsLastHour() {
