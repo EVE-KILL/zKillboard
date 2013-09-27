@@ -421,7 +421,6 @@ class Info
 	}
 
 	private static $entities = array(
-			array("faction", "SELECT factionID FROM zz_factions WHERE name "),
 			array("alliance", "SELECT allianceID FROM zz_alliances WHERE name "),
 			array("alliance", "SELECT allianceID FROM zz_alliances WHERE ticker "),
 			array("corporation", "SELECT corporationID FROM zz_corporations WHERE name "),

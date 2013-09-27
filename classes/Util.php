@@ -31,9 +31,9 @@ class Util
 		if ($subDomain === null || trim($subDomain) == "") return true;
 		$subDomain = str_replace("_", " ", $subDomain);
 		$array = array(":subDomain" => $subDomain);
-		$row = Db::queryRow("select factionID, name from zz_factions where ticker = :subDomain", $array, 3600);
+		/*$row = Db::queryRow("select factionID, name from zz_factions where ticker = :subDomain", $array, 3600);
 		if ($row != null) return Util::setSubdomainGlobals("factionID", $row, "faction");
-		/*$row = Db::queryRow("select allianceID, name from zz_alliances where ticker = :subDomain order by memberCount desc limit 1", $array, 3600);
+		$row = Db::queryRow("select allianceID, name from zz_alliances where ticker = :subDomain order by memberCount desc limit 1", $array, 3600);
 		if ($row != null) return Util::setSubdomainGlobals("allianceID", $row, "alliance");
 		$row = Db::queryRow("select corporationID, name from zz_corporations where ticker = :subDomain order by memberCount desc limit 1", $array, 3600);
 		if ($row != null) return Util::setSubdomainGlobals("corporationID", $row, "corporation");*/

@@ -24,7 +24,6 @@ if ($app->request()->isPost())
 
 //declare the base data/sql etc		
 $entities = array(
-	array('type' => 'faction',     'query' => 'SELECT factionID AS id, name FROM zz_factions WHERE name LIKE :query LIMIT 9',                                          'image' => 'Alliance/%1$d_32.png'),
 	array('type' => 'alliance',    'query' => 'SELECT allianceID AS id, name FROM zz_alliances WHERE name LIKE :query OR ticker LIKE :query LIMIT 9',                  'image' => 'Alliance/%1$d_32.png'),
 	array('type' => 'corporation', 'query' => 'SELECT corporationID AS id, name FROM zz_corporations WHERE name LIKE :query OR ticker LIKE :query LIMIT 9',            'image' => 'Corporation/%1$d_32.png'),
 	array('type' => 'character',   'query' => 'SELECT characterID AS id, name FROM zz_characters WHERE name LIKE :query LIMIT 9',                                      'image' => 'Character/%1$d_32.jpg'),
