@@ -96,6 +96,18 @@ width: 160px;
 overflow: hidden !important;
 }
 
+.footer {
+	margin-top: 20px;
+	padding-top: 20px;
+}
+
+// also hide the stuff from ladscape ipad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {	
+	.hidden-tablet {
+		display: none;
+	}
+}
+
 ul.autocomplete { width: 375px; }
 ul.autocomplete img { position: absolute; top: 4px; left: 4px; }
 ul.autocomplete a { position: relative; padding: 10px 2px 0px 40px; height: 30px; }

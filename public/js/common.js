@@ -61,7 +61,7 @@ $(document).ready(function() {
 		$('#addentity').submit();
 	});
 
-    // prevent firing if window.location in table rows if a link is clicked directly
+    // prevent firing of window.location in table rows if a link is clicked directly
 	$('.killListRow a').click(function(e) {
 		e.stopPropagation();
 	});
