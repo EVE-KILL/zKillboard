@@ -39,7 +39,7 @@ class cli_stompReceive implements cliCommand
 		$stomp = new Stomp($stompServer, $stompUser, $stompPassword);
 		$stomp->setReadTimeout(10);
 		$destination = "/topic/kills";
-		$stomp->subscribe($destination, array("id" => "zkb-".$baseAddr, "persistent" => "true", "ack" => "client", "prefetch-count" => 20));
+		$stomp->subscribe($destination, array("id" => "zkb-".$baseAddr, "persistent" => "true", "ack" => "client", "prefetch-count" => 1));
 
 		Log::log("StompReceive started");
 
