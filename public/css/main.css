@@ -1,5 +1,10 @@
 body {
 	padding-bottom: 25px;
+	padding-top: 60px;
+}
+
+body, html {
+	height: 100%;
 }
 
 .centered { vertical-align:middle; text-align:center; }
@@ -130,3 +135,35 @@ ul.autocomplete span { position: absolute; top: 8px; right: 5px; }
 #killmap_history ul li.bold { font-weight: bold; }
 #killmap_controls { position: absolute; top: 60px; right: 10px; z-index: 2002; }
 #killmap_zenmode { position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; background-color: #000000; z-index: 2000; display: none; }
+
+/* mobile menu stuff */
+.mobileNav {
+	position: absolute;
+	left: -200px;
+	top: 0px;
+	width: 200px;
+	z-index: 99;
+	height: 100%;
+}
+
+.content {
+	position: relative;
+	left: 0;
+	top: 0;
+	right: 0px;
+}
+
+.content.opened {
+	left: 200px;	
+}
+
+.mobileNav.opened {
+	left: 0px;
+}
+
+.content, .mobileNav {
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}

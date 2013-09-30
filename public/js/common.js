@@ -65,6 +65,12 @@ $(document).ready(function() {
 	$('.killListRow a').click(function(e) {
 		e.stopPropagation();
 	});
+
+	$('a.openMenu').click(function(e){
+		$('.content').toggleClass('opened');
+		$('.mobileNav').toggleClass('opened');
+		e.preventDefault();
+	});
 });
 
 function updateKillsLastHour() {

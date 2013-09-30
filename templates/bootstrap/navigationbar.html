@@ -1,11 +1,11 @@
-<div class="navbar container">
+<div class="navbar navbar-fixed-top">
 <div class="navbar-inner">
 <div class="container">
-<a class="brand hidden-phone" href="/">{% if KillboardName %}{{ KillboardName }}{% else %}zKillboard{% endif %}</a>
-<a class="brand hidden-tablet hidden-desktop" href="/"><i class="icon-home"></i></a>
-<ul class="nav pull-left">
+<a class="hidden-tablet hidden-desktop openMenu btn btn-navbar" style="float: left;" href="#"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></i></a>
+<a class="brand" href="/">{% if KillboardName %}{{ KillboardName }}{% else %}zKillboard{% endif %}</a>
+<ul class="nav">
 <li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">Kills</a>
+<a href="#" class="dropdown-toggle hidden-phone" data-toggle="dropdown">Kills</a>
 <ul class="dropdown-menu">
 <li><a href="/kills/">All Kills</a></li>
 <li><a href="/kills/w-space/">W-Space</a></li>
@@ -98,7 +98,7 @@
 </ul>
 </li>
 <li class="hidden-phone hidden-tablet"><a href="/post/">Post</a></li>
-<!--<li class="hidden-phone hidden-tablet"><a href="/map/">Map</a></li>-->
+{#<li class="hidden-phone hidden-tablet"><a href="/map/">Map</a></li>#}
 </ul>
 <ul class="nav pull-right">
 <li class="hidden-phone hidden-tablet"><a href="/top/lasthour/" rel="tooltip" title="Kills added in the last hour" id="lasthour">{{ killsLastHour | number_format(0)}}</a></li>
