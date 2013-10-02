@@ -5,7 +5,7 @@
         <tr>
         {% set imageSize = 32 %}
         {% set field = data %}
-        <td style="width: 65px;">{{ data.kills|number_format(0) }} Kills</td>
+        <td style="width: 75px;">{{ data.kills|number_format(0) }} Kills</td>
         {% if topSet.type == 'character' %}
             <td style="width: 35px;">{% include 'components/image_char.html' %}</td>
             <td>{% include 'components/text_char.html' %}</td>
