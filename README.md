@@ -108,7 +108,7 @@ Just run it every minute via cron or a similar system:
 ```
 
 If you're not happy with the default timeouts, or want to disable/enable some jobs entirely, you can use the cron.overrides file.
-The cron.overrides file has to be placed into the zKB root dir, next to the cron.php script. It's a simpel json file, with the following format:
+The cron.overrides file has to be placed into the zKB root dir, next to the cron.php script. It's a simple json file, with the following format:
 
 ```json
 {
