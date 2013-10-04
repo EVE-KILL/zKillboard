@@ -1,46 +1,58 @@
-<h3>Site Settings</h3>
-<div class="well">
-	<h4>Skin</h4>
-	<form class="form-horizontal" name="themes" method="post" action="/account/sitesettings/">
-		<div class="form-group col-lg-2">
-			<select name="theme" class="form-control input-sm">
-			{% for theme in data.themes %}
-				{% set selected = "" %}
-				{% if theme == sessiontheme %}{% set selected = "selected"%}{% endif %}
-				<option value="{{ theme }}" {{ selected }}>{{ theme }}</option>
-			{% endfor %}
-			</select>
-		</div>
-		<div class="form-group col-lg-2">
-			<input type="submit" class="btn btn-primary btn-sm" value="Set skin">
-		</div>
-	</form>
-
-	<form class="form-horizontal" name="viewthemes" method="post" action="/account/sitesettings/">
-		<div class="form-group col-lg-2">
-			<select name="viewtheme" class="form-control input-sm">
-			{% for viewtheme in data.viewthemes %}
-				{% set selected = "" %}
-				{% if viewtheme == sessionviewtheme %}{% set selected = "selected"%}{% endif %}
-				<option value="{{ viewtheme }}" {{ selected }}>{{ viewtheme }}</option>
-			{% endfor %}
-			</select>
-			<div class="form-group col-lg-2">
-				<input type="submit" class="btn btn-primary btn-sm" value="Set theme">
+<div class="row">
+	<div class="col-lg-6">
+		<h3>Site Settings</h3>
+		<div class="well">
+			<h4>Skin</h4>
+			<div class="row">
+				<form class="form-horizontal" name="themes" method="post" action="/account/sitesettings/">
+					<div class="form-group col-lg-2">
+						<select name="theme" class="form-control input-sm">
+						{% for theme in data.themes %}
+							{% set selected = "" %}
+							{% if theme == sessiontheme %}{% set selected = "selected"%}{% endif %}
+							<option value="{{ theme }}" {{ selected }}>{{ theme }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="form-group col-lg-2">
+						<input type="submit" class="btn btn-primary btn-sm" value="Set skin">
+					</div>
+				</form>
+			</div>
+			<div class="row">
+				<form class="form-horizontal" name="viewthemes" method="post" action="/account/sitesettings/">
+					<div class="form-group col-lg-2">
+						<select name="viewtheme" class="form-control input-sm">
+						{% for viewtheme in data.viewthemes %}
+							{% set selected = "" %}
+							{% if viewtheme == sessionviewtheme %}{% set selected = "selected"%}{% endif %}
+							<option value="{{ viewtheme }}" {{ selected }}>{{ viewtheme }}</option>
+						{% endfor %}
+						</select>
+					</div>
+					<div class="form-group col-lg-2">
+						<input type="submit" class="btn btn-primary btn-sm" value="Set theme">
+					</div>
+				</form>
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
 
-<h3>Show Condensed Timestamps</h3>
-<div class="well">
-	<p>Will replace all killlist timestamps with Facebook style timestamps, instead of saying "2012-11-01 12:00:00" it will say "2 hours ago" or "3 months ago" or "4 years ago" etc.</p>
-	<form class="well" name="turnonofftimestamps" method="post" action="/account/sitesettings/">
-		<select name="timeago">
-			<option value="true" {% if data.timeago == "true" %}selected{% endif %}>On</option>
-			<option value="false" {% if data.timeago == "false" %}selected{% endif %}>Off</option>
-		</select>
-	<input type="submit" class="btn btn-primary" value="Turn On/Off"></td>
-	</form>
+	<div class="col-lg-6">
+		<h3>Show Condensed Timestamps</h3>
+		<div class="well">
+			<form class="form-horizontal" name="turnonofftimestamps" method="post" action="/account/sitesettings/">
+				<div class="form-group col-lg-2">
+					<select name="timeago" class="form-control input-sm">
+						<option value="true" {% if data.timeago == "true" %}selected{% endif %}>On</option>
+						<option value="false" {% if data.timeago == "false" %}selected{% endif %}>Off</option>
+					</select>
+				</div>
+				<div class="form-group col-lg-2">
+					<input type="submit" class="btn btn-primary btn-sm" value="Set">
+				</div>
+			</form>
+			<p>Will replace all killlist timestamps with Facebook style timestamps, instead of saying "2012-11-01 12:00:00" it will say "2 hours ago" or "3 months ago" or "4 years ago" etc.</p>
+		</div>
+	</div>
 </div>
-
