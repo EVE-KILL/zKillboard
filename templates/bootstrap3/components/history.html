@@ -1,0 +1,23 @@
+{% set history = detail.history %} 
+{% set lastYear = 0 %}
+{% set currentYear = 0 %}
+<div class="row">
+<table class="table table-condensed table-striped table-hover">
+<tr style="text-align: right;"><th>&nbsp;</th><th>Kills</th><th>Points</th><th>ISK</th><th>Losses</th><th>Points</th><th>ISK</th></tr>
+{% for month in history %}
+	{% if currentYear != month.year %}
+		<tr><th colspan="7">{{ month.year }}</th></tr>
+		{% set currentYear = month.year %}
+	{% endif %}
+	<tr>
+		<td><a href="/{{ key }}/{{ id }}/year/{{ month.year }}/month/{{ month.month }}/">{{ getLongMonth(month.month) }}</a></td>
+		<td><span class="pull-right green">{{ month.destroyed | number_format(0) }}</span></td>
+		<td><span class="pull-right green">{{ month.pointsDestroyed | number_format(0) }}</span></td>
+		<td><span class="pull-right green">{{ formatIsk(month.iskDestroyed) }}</span></td>
+		<td><span class="pull-right red">{{ month.lost | number_format(0) }}</span></td>	
+		<td><span class="pull-right red">{{ month.pointsLost | number_format(0) }}</span></td>	
+		<td><span class="pull-right red">{{ formatIsk(month.iskLost) }}</span></td>	
+	<tr>
+{% endfor %}
+</table>
+</div>

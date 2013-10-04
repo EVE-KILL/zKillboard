@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% set pageTitle = 'Home' %}
+{% block title %}{% include 'components/title.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-4">
+		{% set shipNameLength = 11 %}
+		{% set topTitle = 'Most Valuable Kills - Last 3 Days' %}
+		{% set topSet = topIsk %}
+		{% include 'components/big_top_list.html' %}
+	</div>
+	<div class="col-sm-4">
+		{% set topTitle = 'Most Valuable Pods - Last 3 Days' %}
+		{% set topSet = topPods %}
+		{% include 'components/big_top_list.html' %}
+	</div>
+	<div class="col-sm-4">
+		{% set topTitle = 'Top Points Lost - Last 3 Days' %}
+		{% set topSet = topPoints %}
+		{% set showPoints = true %}
+		{% include 'components/big_top_list.html' %}
+	{% set shipNameLength = 30 %}
+	</div>
+</div>
+
+<div class="row">
+	{% set isEmbedded = true %}
+	{% for topSet in topKillers %}
+	{% include 'components/top_killer_list.html' %}
+	{% endfor %}
+</div>
+
+{% set killListTitle = 'Most recent kills' %}
+{% set killList = kills %}
+{% include 'components/kill_list.html' %}
+
+{% endblock %}

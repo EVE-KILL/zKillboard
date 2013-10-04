@@ -1,0 +1,22 @@
+<h4>{{ killdata.info.number_involved }} Involved</h4>
+{% set attackList = extra.involved %}
+{% include 'components/attackers_list.html'%}
+{% if killdata.info.number_involved > "10" %}
+<div class="accordion well well-small" id="allPilots">
+	<div class="accordion-group">
+		<div class="accordion-heading">
+			<a class="accordion-toggle" data-toggle="collapse" data-parent="#allPilots" href="#listAllPilots" onClick="$('.delayed').each(function(){$(this).attr('src', $(this).attr('data-src'))})">
+				<div class="centered">List all pilots</div>
+			</a>
+		</div>
+		<div id="listAllPilots" class="accordion-body collapse out">
+			<div class="accordion-inner">
+				{% set attackList = extra.allinvolved %}
+				{% set isDelayed = true %}
+				{% include 'components/attackers_list.html'%}
+				{% set isDelayed = false %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}

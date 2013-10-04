@@ -1,0 +1,30 @@
+{% set loopIndex = 0 %}
+<h3>Summary</h3>
+{% if summaryTable is empty %}
+<div class="alert">No summary data available...</div>
+{% else %}
+	<div class="row">
+		{% for data in summaryTable %}
+			<div class="col-lg-3">
+			<table class="table table-condensed table-hover">
+				<thead>
+					<tr>
+						<th>Ship Class</th>
+						<th>Killed</th>
+						<th>Lost</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for stats in data %}
+						<tr rel="tooltip" title="{{ stats.groupName }}">
+							<td><a href="/{{ key }}/{{ id }}/group/{{stats.groupID}}/">{{ shortString(stats.groupName, 21) }}</a></td>
+							<td class="green" style="text-align: right;">{{ stats.destroyed|number_format(0) }}</td>
+							<td class="red" style="text-align: right;">{{ stats.lost|number_format(0) }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			</div>
+		{% endfor %}
+	</div>
+{% endif %}

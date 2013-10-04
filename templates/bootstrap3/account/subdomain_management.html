@@ -1,0 +1,41 @@
+<div class="row">
+<div class="span6">
+{% set imageSize = 32 %}
+{% if data.domainEntities %}
+<table class="table table-condensed table-striped table-hover span5">
+{% for data in data.domainEntities %}
+	<tr><td style="width: 32px;">
+        {% if data.entityType == "faction" %}<a href="/faction/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_faction }}{{ data.entityID }}_32.png"></a></td><td><a href="/faction/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "alliance" %}<a href="/alliance/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_alliance }}{{ data.entityID }}_32.png"></a></td><td><a href="/alliance/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "corporation" %}<a href="/corporation/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_corporation }}{{ data.entityID }}_32.png"></a></td><td><a href="/corporation/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "character" %}<a href="/character/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_character }}{{ data.entityID }}_32.jpg"></a></td><td><a href="/character/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "ship" %}<a href="/ship/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_ship }}{{ data.entityID }}_32.png"></a></td><td><a href="/ship/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "region" %}<a href="/region/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_region }}{{ data.entityID }}_32.png"></a></td><td><a href="/region/{{ data.entityID }}/">{{ data.entityName }}</a>
+        {% elseif data.entityType == "system" %}<a href="/system/{{ data.entityID }}/"><img class="{{eveImage}}img-rounded" src="{{ image_system }}{{ data.entityID }}_32.png"></a></td><td><a href="/system/{{ data.entityID }}/">{{ data.entityName }}</a>
+      {% endif %}
+	</td>
+	<td>
+        <form name="deleteentity" method="post" action="/account/subdomains/{{ reqid }}/">
+            <input id="deletedomainentityid" name="deletedomainentityid" type="hidden" value="{{ data.entityID }}">
+            <input id="deletedomainentitytype" name="deletedomainentitytype" type="hidden" value="{{ data.entityType }}">
+            <input type="submit" class="btn btn-danger" value="Remove" onclick="return confirm('Are you sure you want to remove {{ data.entityName }}?');">
+        </form>
+    </td>
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+</div>
+<div class="span6">
+	<legend>Add Tracker</legend>
+	<p>Select which Character / Corporations / Alliances / Factions / Ship / System / Region you would like to follow.</p>
+	<form class="well form-inline" name="addentity" id="addentity" method="post" action="/account/subdomains/{{ reqid }}/">
+		<fieldset>
+			<input type="hidden" name="entitymetadata" value="">
+			<label for="adddomainentitybox">Name</label>
+            <input type="hidden" name="subdomain" value=" {{ reqid }}">
+			<input type="text" class="span5" autocomplete="off" placeholder="Name" id="addentitybox" name="addentitybox">
+		</fieldset>
+	</form>
+</div>
+</div>

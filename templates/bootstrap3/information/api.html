@@ -1,0 +1,112 @@
+The zKB API is for developers and enthusiasts who want to integrate zKB into their website or application.
+
+Usage is provided under the following rules:
+- Do not hammer the server with API requests.
+- Follow the cachetime indicated in the expires header (You can use the cachedUntil value in the XML if you must, but the expires header is more accurate). 
+- If you must do several requests in a row, wait a few seconds between each.
+- Please send 'Accept-Encoding: gzip' as a header, to help save bandwidth.
+- Please send 'User-Agent: <description>' as a header, describing who you are, so we don't ban legitimate users.
+
+Also you should keep these things in mind:
+- Remember to look at the X-Time-Between-Req header, it lists how many seconds you have to wait between requests.
+- If you get an Error 403, look at the Retry-After header, for when you can do another request.
+- All IDs used with the API are CCP IDs.
+- The API will maximum deliver 200 mails back at a time.
+- If the /limit/ modifier is used then /page/ will be unavailable.
+- startTime and endTime is a datetime timestamp, in the format: YmdHi (Example: 2012-11-25 19:00 = 201211251900).
+- W-space and solo can be combined with kills and losses.
+- api-only will return only CCP API Verified kills.
+- To get combined kills and losses, don't use the kills or losses modifiers.
+- Up to 10 IDs can be fetched at the same time, by seperating them with a , (comma).
+- pastSeconds returns only kills that have happened in the past x seconds.
+- pastSeconds can maximum go upto 7 days (604800 seconds)
+- Default return is JSON, you can get XML if you pass the XML parameter in the URL.
+- Remember to finish with a / (forward slash).
+- All modifiers can be combined in any order.
+- You must pass atleast two modifiers. (w-space / solo or an xID is needed)
+- Negative killIDs denote manually posted mails, positive killIDs denote API posted mails.
+- JSONP is available, but untested.
+- page requests > 10 are only allowed for characterID, corporationID, and allianceID
+
+Defaults:
+- Default sort is desc (latest to oldest).
+- Default page is 1, second page is 2, third is 3, etc.
+- Default is json
+
+Fetch type modifiers
+- <strong>kills</strong>
+- <strong>losses</strong>
+- <strong>w-space</strong>
+- <strong>solo</strong>
+
+Page / time / limit modifiers:
+- <strong>limit/numkills/</strong>
+- <strong>page/pagenumber/</strong>
+- <strong>startTime/datetime/</strong>
+- <strong>endTime/datetime/</strong>
+- <strong>year/yearnumber/</strong>
+- <strong>month/monthnumber/</strong>
+- <strong>week/weeknumber/</strong>
+- <strong>beforeKillID/id/</strong>
+- <strong>afterKillID/id/</strong>
+- <strong>pastSeconds/seconds/</strong>
+
+Order modifiers (Not working atm):
+- <strong>orderDirection/asc/</strong>
+- <strong>orderDirection/desc/</strong>
+
+Fetch modifiers:
+- <strong>characterID</strong>
+- <strong>corporationID</strong>
+- <strong>allianceID</strong>
+- <strong>factionID</strong>
+- <strong>shipTypeID</strong>
+- <strong>groupID</strong>
+- <strong>solarSystemID</strong>
+- <strong>regionID</strong>
+
+Less Information
+- <strong>no-items</strong>
+- <strong>no-attackers</strong>
+- <strong>api-only</strong>
+
+Other Format
+- <strong>xml</strong>
+
+Examples:
+-- <a href="https://zkillboard.com/api/kills/w-space/">https://zkillboard.com/api/kills/w-space/</a>
+-- <a href="https://zkillboard.com/api/kills/w-space/xml/">https://zkillboard.com/api/kills/w-space/xml/</a>
+-- <a href="https://zkillboard.com/api/losses/solo/">https://zkillboard.com/api/losses/solo/</a>
+-- <a href="https://zkillboard.com/api/losses/solo/xml/">https://zkillboard.com/api/losses/solo/xml/</a>
+-- <a href="https://zkillboard.com/api/kills/characterID/268946627/" target="_blank">https://zkillboard.com/api/kills/characterID/268946627/</a>
+-- <a href="https://zkillboard.com/api/kills/characterID/268946627/xml/" target="_blank">https://zkillboard.com/api/kills/characterID/268946627/xml/</a>
+-- <a href="https://zkillboard.com/api/solo/kills/characterID/268946627/" target="_blank">https://zkillboard.com/api/solo/kills/characterID/268946627/</a>
+-- <a href="https://zkillboard.com/api/kills/regionID/10000002/" target="_blank">https://zkillboard.com/api/kills/regionID/10000002/</a>
+-- <a href="https://zkillboard.com/api/w-space/corporationID/98076299/" target="_blank">https://zkillboard.com/api/w-space/corporationID/98076299/</a>
+-- <a href="https://zkillboard.com/api/w-space/corporationID/98076299/page/2/">https://zkillboard.com/api/w-space/corporationID/98076299/page/2/</a>
+-- <a href="https://zkillboard.com/api/kills/shipID/644,638/orderDirection/asc/">https://zkillboard.com/api/kills/shipID/644,638/orderDirection/asc/</a>
+
+Stats API
+For those people wishing to pull general statistics about character/corporation/alliance or faction there is an additional stats API.
+This API will not accept any of the modifiers used above.
+
+Allowed Types
+- <strong>characterID</strong>
+- <strong>corporationID</strong>
+- <strong>allianceID</strong>
+- <strong>factionID</strong>
+- <strong>shipID</strong>
+- <strong>groupID</strong>
+- <strong>systemID</strong>
+- <strong>regionID</strong>
+
+Examples:
+-- <a href="https://zkillboard.com/api/stats/characterID/268946627/">https://zkillboard.com/api/stats/character/268946627/</a>
+-- <a href="https://zkillboard.com/api/stats/corporationID/98076299/xml/">https://zkillboard.com/api/stats/corporation/98076299/xml/</a>
+-- <a href="https://zkillboard.com/api/stats/allianceID/386292982/json/">https://zkillboard.com/api/stats/alliance/386292982/json/</a>
+
+<strong>Please Note:</strong>
+If you aren't using the api-only modifier, then it is possible to pull kills that include a negative killID. Negative killIDs denote manual mails.
+Those manual mails could later get verified by the API, and get a positive killID (API mails).
+
+This means you could potentially pull the same kill twice. It is up to you to detect this.

@@ -1,0 +1,25 @@
+{% set actualSize = (resizeImage is defined) ? resizeImage : imageSize %}
+{% if field.shipTypeID == 0 %}
+	{% if resizeImage %}
+		<img src="/img/eve-question.png" height="{{resizeImage}}" width="{{resizeImage}}" class="eveimage img-rounded" alt=""/>
+	{% else %}
+		<img src="/img/eve-question.png" height="{{imageSize}}" width="{{imageSize}}" class="eveimage img-rounded" alt=""/>
+	{% endif %}
+{% else %}
+	{% if shipImageLinkOverride != 0 %}
+	<a href="/detail/{{shipImageLinkOverride}}/" rel="tooltip" title="Detail for {{shipImageLinkOverride}}">
+	{% else %}
+    <a href="/ship/{{ field.shipTypeID }}/" rel="tooltip" title="{{ field.shipName }}">
+	{% endif %}
+	
+    {% if imageSize > 64 %}
+	<img src="{{ image_ship }}{{ field.shipTypeID }}_{{imageSize}}.png" height="{{actualSize}}" width="{{actualSize}}" class="eveimage img-rounded" alt="{{field.shipName}}"/>
+    {% else %}
+	{% if isDelayed %}
+		<img src="#" data-src="{{ image_item }}{{ field.shipTypeID }}_{{imageSize}}.png" height="{{actualSize}}" width="{{actualSize}}" class="delayed eveimage img-rounded" alt="{{field.shipName}}"/>
+	{% else %}
+		<img src="{{ image_item }}{{ field.shipTypeID }}_{{imageSize}}.png" height="{{actualSize}}" width="{{actualSize}}" class="eveimage img-rounded" alt="{{field.shipName}}"/>
+	{% endif %}
+    {% endif %}
+    </a>
+{% endif %}

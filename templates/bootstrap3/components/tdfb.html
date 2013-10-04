@@ -1,0 +1,34 @@
+{% if finalBlow or topDamage %}
+<table class="table table-condensed">
+	{% set imageSize = 64 %}
+	<thead>
+		<tr class="titles centered">
+			<th style="text-align: center;">Final Blow</th>
+			<th style="text-align: center;">Top Damage</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="text-align: center;">{% set field = finalBlow %}{% include 'components/image_char.html'%}</td>
+			<td style="text-align: center;">
+			{% set field = topDamage %}
+			{% if field.characterID != 0%}
+				{% include 'components/image_char.html'%}
+			{% else %}
+				{% include 'components/image_corp.html'%}
+			{%endif%}
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><a href="/character/{{ finalBlow.characterID }}/">{{ finalBlow.characterName }}</a></td>
+			<td style="text-align: center;">
+			{% if field.characterID != 0 %}
+				<a href="/character/{{ topDamage.characterID }}/">{{ topDamage.characterName }}</a>
+			{% else %}
+				<a href="/corporation/{{ topDamage.corporationID }}/">{{ topDamage.corporationName }}</a>
+			{% endif %}
+			</td>
+		</tr>
+	</tbody>
+</table>
+{% endif %}

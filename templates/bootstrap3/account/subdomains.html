@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-lg-4">
+		<h3>Add Subdomain</h3>
+		<div class="well">
+			<form class="form" name="addentity" method="post" action="">
+				<div class="form-group">
+					<input id="domainname" name="domainname" type="text" class="form-control" required placeholder="Subdomain" onkeyup="$('#preview').html(this.value);">
+				</div>
+				<div class="form-group">
+					<strong>Preview: </strong><a href="#">https://<span id="preview">example</span>.zkillboard.com</a>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-primary" value="Add Domain" class="form-control">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col-lg-8">
+		{% if data.domains|length > 0 %}
+		<h3>Existing Subdomains</h3>
+		<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<th>Subdomain</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for data in data.domains %}
+			<tr>
+				<td><a href="https://{{ data.domain }}.zkillboard.com" target="_blank">https://{{ data.domain }}.zkillboard.com</a></td>
+				<td>{% if data.cloudFlareID > 0 %} Added to CloudFlare {% else %} Not Added to CloudFlare {% endif %}</td>
+				<td style="text-align: right;">
+					<form name="deletedomain" method="post" action="/account/subdomains/">
+						<a href="/account/subdomains/{{ data.domainID }}/" class="btn btn-default btn-sm">Manage Entities</a>
+						<input id="deletedomain" name="deletedomainid" type="hidden" value="{{ data.domainID }}">
+						<input type="submit" class="btn btn-primary btn-sm" value="Remove" onclick="return confirm('Are you sure you want to remove this Domain?');">
+					</form>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+		<p><small>A domain may take up to 60 minutes to be available through Cloudflare...</small></p>
+		{% endif %}
+	</div>
+</div>

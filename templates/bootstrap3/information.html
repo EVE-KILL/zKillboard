@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% set pageTitle = 'Information' %}
+{% block title %}{% include 'components/title.html' %}{% endblock %}
+
+{% block content %}
+<h2>Information</h2>
+<div class="navbar navbar-default">
+	<div class="navbar-header">
+    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+
+	<div class="collapse navbar-collapse navbar-sub">
+		<ul class="nav navbar-nav">
+            <li class="{{ isActive('about', pageview) }}"><a href="/information/about/">About</a></li>
+            <li class="{{ isActive('statistics', pageview) }}"><a href="/information/statistics/">Statistics</a></li>
+            <li class="{{ isActive('points', pageview) }}"><a href="/information/points/">Points</a></li>
+            <li class="{{ isActive('api', pageview) }}"><a href="/information/api/">API</a></li>
+            <li class="{{ isActive('jabber', pageview) }}"><a href="/information/jabber/">Jabber</a></li>
+            <li class="{{ isActive('contact', pageview) }}"><a href="/information/contact/">Contact</a></li>
+            <li class="{{ isActive('faq', pageview) }}"><a href="/information/faq/">FAQ</a></li>
+            <li class="{{ isActive('tos', pageview) }}"><a href="/information/tos/">TOS</a></li>
+            <li class="{{ isActive('legal', pageview) }}"><a href="/information/legal/">CCP Copyright</a></li>
+			<li class="{{ isActive('cookies', pageview) }}"><a href="/information/cookies/">Cookies</a></li>
+			<li class="{{ isActive('license', pageview) }}"><a href="/information/license/">License</a></li>
+            <li class="{{ isActive('3rd', pageview) }}"><a href="/information/3rd/">3rd Parties</a></li>
+		</ul>
+	</div>
+</div>
+
+{% if pageview == "about" %}
+<h3>About</h3>
+<pre class="prettyprint">
+{% include 'information/about.html' %}
+</pre>
+{% elseif pageview == "statistics" %}
+<h3>Statistics</h3>
+<pre class="prettyprint">
+{% if info.total > 0 %}
+{{ info.kills|number_format(0, '.', ',') }} kills processed and available for viewing 
+{{ info.ignored|number_format(0, '.', ',') }} kills ignored (NPC, blue on blue, etc.)
+{{ info.total|number_format(0, '.', ',') }} total kills in the database.
+{{ ((( info.kills + info.ignored ) / info.total ) * 100)|number_format(1)}}% of the killmails have been parsed.
+{% endif %}
+</pre>
+{% elseif pageview == "contact" %}
+<h3>Contact Information</h3>
+<pre class="prettyprint">
+{% include 'information/contact.html' %}
+</pre>
+{% elseif pageview == "faq" %}
+<h3>Frequently Asked Questions</h3>
+<pre class="prettyprint">
+{% include 'information/faq.html' %}
+</pre>
+{% elseif pageview == "tos" %}
+<h3>Terms of Service</h3>
+<pre class="prettyprint">
+{% include 'information/tos.html' %}
+</pre>
+{% elseif pageview == "legal" %}
+<div class="row-fluid">
+<h3>CCP Legal Notice</h3>
+<pre class="prettyprint">
+{% include 'information/ccplegal.html' %}
+</pre>
+</div>
+{% elseif pageview == "3rd" %}
+<h3>3rd Party Information</h3>
+<pre class="prettyprint">
+{% include 'information/3rdparties.html' %}
+</pre>
+{% elseif pageview == "api" %}
+<h3>API</h3>
+<pre class="prettyprint">
+{% include 'information/api.html' %}
+</pre>
+{% elseif pageview == "jabber" %}
+<h3>Jabber</h3>
+<pre class="prettyprint">
+{% include 'information/jabber.html' %}
+</pre>
+{% elseif pageview == "license" %}
+{% include 'information/license.html' %}
+{% elseif pageview == "points" %}
+<h3>Points</h3>
+<pre>
+{% include 'information/points.html' %}
+{% for points in info.pointValues %}
+ - {{ points.0 }}: {{ points.1 }}
+{% endfor %}
+</pre>
+{% elseif pageview == "cookies" %}
+{% include 'information/cookies.html' %}
+{% endif %}
+{% endblock %}
+
+{% block robots %}
+	<meta name="robots" content="nofollow">
+{% endblock %}
+
+{% block script %}
+{% endblock %}

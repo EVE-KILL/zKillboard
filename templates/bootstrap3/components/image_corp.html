@@ -1,0 +1,5 @@
+{% set actualSize = (resizeImage is defined) ? resizeImage : imageSize %}
+<a href="/corporation/{{ field.corporationID }}/" rel="tooltip" title="{{ field.corporationName }}">
+    <img src="{{ image_corporation}}{{ field.corporationID }}_{{imageSize}}.png" height="{{actualSize}}" width="{{actualSize}}" class="eveimage img-rounded" alt="{{ field.corporationName}}"/>
+</a>
+

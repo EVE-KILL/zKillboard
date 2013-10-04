@@ -1,0 +1,28 @@
+{% set imageSize = 32 %}
+{% set headerDisplayed = false %}
+{% for item in items %}
+	{% if item.flagName == flagName %}
+	{% if headerDisplayed == false %}
+	<tr class="hidden-lg hidden-md">
+		<th colspan="5"><h5>{{ flagName }}</h5></th>
+	</tr>
+	<tr class="hidden-xs">
+		<th colspan="6"><h5>{{ flagName }}</h5></th>
+	</tr>
+	{% set headerDisplayed = true %}
+	{% endif %}
+	{% set droppedRow = item.qtyDropped > 0 ? 'item_dropped_row' : '' %}
+	{% set dropped = item.qtyDropped > 0 ? 'item_dropped' : '' %}
+	{% set destroyed = item.qtyDestroyed > 0 ? 'item_destroyed' : '' %}
+	<tr class="{{ droppedRow }}">
+		{% set field = item %}
+		<td class="icons hidden-xs">
+			<div align="center">{% include 'components/image_item.html' %}</div>
+		</td>
+		<td style="vertical-align: middle;">{% if item.inContainer == 1%}&mdash; {% endif %}<a href="/item/{{item.typeID}}/">{{ item.typeName }}{% if item.singleton == 2%} (Copy){% endif %}</a></td>
+		<td class="{{ dropped }}" style="text-align: right; vertical-align: middle">{% if item.qtyDropped %}{{ item.qtyDropped|number_format(0) }}{%else%}-{% endif %}</td>
+		<td class="{{ destroyed }}" style="text-align: right; vertical-align: middle">{% if item.qtyDestroyed %}{{ item.qtyDestroyed|number_format(0) }}{%else%}<font style="color: grey;">-</font>{% endif %}</td>
+		<td class="price" style="text-align: right; vertical-align: middle;">{{ item.price|number_format(2) }}</td>
+	</tr>
+	{% endif %}
+{% endfor %}

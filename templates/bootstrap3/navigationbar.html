@@ -1,0 +1,158 @@
+<div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">	
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle openMenu" data-toggle="collapse" data-target=".navbar-main">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>		  
+			<a class="navbar-brand" href="/">{% if KillboardName %}{{ KillboardName }}{% else %}zKillboard{% endif %}</a>	
+		</div>
+		<div class="collapse navbar-collapse navbar-main">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Kills <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/kills/">All Kills</a></li>
+						<li><a href="/kills/w-space/">W-Space</a></li>
+						<li><a href="/kills/solo/">Solo</a></li>
+						<li><a href="/kills/5b/">+5b</a></li>
+						<li><a href="/kills/10b">+10b</a></li>
+						<li><a href="/kills/t1/">T1</a></li>
+						<li><a href="/kills/t2/">T2</a></li>
+						<li><a href="/kills/t3/">T3</a></li>
+						<li class="divider"></li>
+						<li class="dropdown-header">Hull Sizes</li>
+						<li><a href="/kills/frigates/">Frigates</a></li>
+						<li><a href="/kills/destroyers/">Destroyers</a></li>
+						<li><a href="/kills/cruisers/">Cruisers</a></li>
+						<li><a href="/kills/battlecruisers/">Battlecruisers</a></li>
+						<li><a href="/kills/battleships/">Battleships</a></li>
+						<li><a href="/kills/capitals/">Capitals</a></li>
+						<li><a href="/kills/freighters/">Freighters</a></li>
+						<li><a href="/kills/supers/">Supers</a></li>
+					</ul>
+				</li>
+				{% if sessionpilots or sessioncorps or sessionalliances or sessionfactions or sessionships or sessionsystems or sessionregions %}
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tracker <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						{% if sessionpilots %}
+						<li class="dropdown-header">Pilots</li>
+						{% for data in sessionpilots %}
+						<li><a href="/character/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessioncorps %}
+						<li class="dropdown-header">Corps</li>
+						{% for data in sessioncorps %}
+						<li><a href="/corporation/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessionalliances %}
+						<li class="dropdown-header">Alliances</li>
+						{% for data in sessionalliances %}
+						<li><a href="/alliance/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessionfactions %}
+						<li class="dropdown-header">Factions</li>
+						{% for data in sessionfactions %}
+						<li><a href="/faction/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessionships %}
+						<li class="dropdown-header">Ships</li>
+						{% for data in sessionships %}
+						<li><a href="/ship/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessionsystems %}
+						<li class="dropdown-header">Systems</li>
+						{% for data in sessionsystems %}
+						<li><a href="/system/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						{% if sessionregions %}
+						<li class="dropdown-header">Regions</li>
+						{% for data in sessionregions %}
+						<li><a href="/region/{{ data.id }}/">{{ data.name }}</a></li>
+						{% endfor %}
+						{% endif %}
+						<li class="dropdown-header">Tracker</li>
+						<li><a href="/tracker/">Track All Kills &amp; Losses</a></li>
+					</ul>
+				</li>
+				{% endif %}
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Top/Rank <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/top/lasthour/">Last Hour</a></li>
+						<li><a href="/ranks/recent/killers">Ranks</a></li>
+					</ul>
+				</li>
+				<li class="hidden-xs hidden-sm"><a href="/post/">Post</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="hidden-xs hidden-sm"><a href="/top/lasthour/" rel="tooltip" title="Kills added in the last hour" id="lasthour">{{ killsLastHour | number_format(0)}}</a></li>
+				<li class="hidden-xs hidden-sm"><a href="#" onclick="return false;" rel="tooltip" title="Eve Time"><div id="my_clock"></div></a></li>
+				<li class="hidden-xs">
+					<form name="search" id="search" class="navbar-form navbar-right" action="/search/" method="post">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search" autocomplete="off" id="searchbox" name="searchbox">
+						</div>
+					</form>
+				</li>
+				<li class="dropdown hidden-xs">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-info-sign"></i></a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-header">Information</li>
+						<li><a href="/information/">Information</a></li>
+						<li><a href="/information/api/">API</a></li>
+						<li><a href="/information/jabber/">Jabber</a></li>
+						<li><a href="/information/contact/">Contact</a></li>
+						<li class="divider"></li>
+						<li class="dropdown-header">Support</li>
+						<li><a href="/support/">Support</a></li>
+						<li><a href="/tickets/">Tickets</a></li>
+						<li><a href="/support/chat/">Live Chat</a></li>
+					</ul>
+				</li>
+				{% if sessionusername %}
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown"><i class="icon-user"></i></a>
+					<a href="#" class="dropdown-toggle hidden-lg" data-toggle="dropdown">Account <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="/account/">Account</a></li>
+						{% if sessionmoderator or sessionadmin %}
+						<li><a href="/moderator/">Moderation</a></li>
+						{% endif %}
+						{% if sessionadmin %}
+						<li><a href="/admin/">Administration</a></li>
+						<li class="divider"></li>
+						{% endif %}
+						<li><a href="/logout/">Logout</a></li>
+					</ul>
+				</li>
+				{% else %}
+				<li class="hidden-xs"><a href="/register/">Register</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" href="/" data-toggle="dropdown">Login <i class="icon-caret-down"></i></a>
+					<div class="dropdown-menu" style="padding: 20px;">
+						<form method="post" action="/login/" accept-charset="UTF-8">
+							<input class="form-control col-lg-4" type="text" placeholder="Username" id="username" name="username">
+							<input class="form-control col-lg-4" type="password" placeholder="Password" id="password" name="password">
+							<input type="hidden" id="requesturi" name="requesturi" value="{{ requesturi }}">
+							<input type="checkbox" name="autologin" id="autologin" checked="1">
+							<label class="string optional"> Remember me</label>
+							<input class="btn btn-block btn-primary col-lg-4" type="submit" id="sign-in" value="Login">
+							<a href="/forgotpassword/">Forgot password?</a>
+						</form>
+					</div>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>	
+

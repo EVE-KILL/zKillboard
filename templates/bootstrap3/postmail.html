@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% set pageTitle = 'Post' %}
+{% block title %}{% include 'components/title.html' %}{% endblock %}
+
+{% block header %}
+	{% if message %}
+		{% for msg in message %}
+		<div class="alert fade in" data-dismiss="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ msg }}
+		</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<h2>Post Killmail</h2>
+<div class="well">
+	<p>Post a killmail from the ingame character sheet.</p>
+	<form  name="postkillmail" method="post" action="/post/" class="form">
+		<div class="form-group">
+			<textarea id="killmail" name="killmail" type="text" required rows="12" class="col-xs-12"></textarea>
+		</div>
+		<div class="form-group">
+			<input type="submit" class="btn btn-large btn-primary" value="Post mail">
+		</div>
+	</form>
+</div>
+
+<h3>Mail Posting Guidelines</h3>
+<div class="well">
+	<p class="alert alert-warning">Failure to comply with these rules will result in losing your mail posting privileges. In worst case, it could mean you get banned from the site.</p>	
+	<ul>
+		<li>Modifying killmails, are not allowed.</li>
+		<li>Fake mails, even if they are ment as a joke, are not allowed.</li>
+		<li>Only mails from Tranquility are allowed, any mail from anywhere else, are not.</li>
+	</ul>
+</div>
+
+<h3>API Key Post</h3>
+<div class="well">
+	<p>Post an API Key, to let the API automatically import kills for you!</p>
+	<p>To quickly create an API key, go to <a href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=524544" target="_blank">https://community.eveonline.com</a><br>(We only require KillLog, but feel free to tick off more.)
+	<p><em>zKillboard handles the API for Eve-Kill</em></p>
+	<form class="form-horizontal" name="addapi" method="post" action="/post/">
+		<div class="form-group">
+			<label for="keyid" class="form-label col-lg-1">KeyID:</label>
+			<div class="col-lg-2">
+				<input type="text" id="keyid" name="keyid" required placeholder="Key ID" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="vcode" class="form-label col-lg-1">vCode:</label>
+			<div class="col-lg-4">
+				<input type="text" id="vcode" name="vcode" required placeholder="Verification Code" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-1 col-lg-offset-1">
+				<input type="submit" class="btn btn-primary" class="Post API key">
+			</div>
+		</div>
+		<p>If you're logged in you can view your API keys <a href="/account/api/">here</a>.</p>
+	</form>
+</div>
+
+<h3>Frequently Asked Questions</h3>
+<div class="well">
+	<ul>
+		<li>
+			<h5>I posted my personal API but my kills didn't show up!!! Where are they?!</h5>
+			<p>API will only post kills in which you are the final blow.  If someone else you were flying with got the final blow then they need to post their API.  However, the API will always post your losses.  Also keep in mind that personal (Character) api's only go back to the last 25 kills/losses.  Beyond that CCP doesn't provide any more history.</p>
+		</li>
+		<li>
+			<h5>I posted a corporation API key and yet some kills are still missing.  Why?</h5>
+			<p>If a member of the corporation didn't get the final blow then your corp API won't have a record of the kill.  The corp API will return all losses by corp members.  Corporation API's only go back to the last 100 kills/losses.</p>
+		</li>
+		<li>
+			<h5>Why can't I share my API on multiple killboards?</h5>
+			<p>One Character.  One Key.  One Killboard.</p>
+			<p>Unfortunately CCP doesn't have a proper caching scheme when it comes to pulling kills with their API.  If multiple killboards attempt to pull the information only the first killboard to pull will get a result, the others will get a 119 error code.  It doesn't matter if you create multiple API keys for the same character, the same problem will persist.  There is nothing we can do about this.</p>
+			<p>For corporations this problem is easy to get around: Use multiple directors and have them each create a key for a killboard.  For example: Bossman [CEO] could create an API key that he posts on zKB, then Bossman's Minion [Director] could create an API key to use on a personal killboard.</p>
+		</li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block robots %}
+<meta name="robots" content="nofollow">
+{% endblock %}

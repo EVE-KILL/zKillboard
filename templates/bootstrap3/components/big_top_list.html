@@ -1,0 +1,18 @@
+<h4 style="text-align: center;">{{ topTitle }}</h4>
+<table class="table table-condensed topBoxes">
+	{% for data in topSet %}
+	<tr>	
+		{% set imageSize = 32 %}
+		{% set field = data.victim %}
+		{% set shipImageLinkOverride = data.info.killID %}
+		<td>{% include 'components/image_ship.html' %}</td>
+		<td class="hidden-md hidden-sm">{% include 'components/text_ship.html' %}</td>
+		<td>{% include 'components/text_char.html' %} </td>
+		<td style="text-align: right;">
+		{% if showPoints %} {{ data.info.points | number_format(0) }} Points
+		{% else %}{{ formatIsk(data.info.total_price) }} ISK
+		{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+</table>

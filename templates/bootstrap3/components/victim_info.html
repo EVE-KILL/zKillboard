@@ -1,0 +1,58 @@
+{% set showImage = true %}
+<table class="table table-condensed table-striped table-hover">
+	{% set field = killdata.victim %}
+	{% if killdata.victim.characterName %}
+	<tr>
+		<th>Victim:</th>
+		<td style="width: 70%;">{% include 'components/text_char.html' %}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<th>Corporation:</th>
+		<td width="100%">{% include 'components/text_corp.html' %}</td>
+	</tr>
+	{% if killdata.victim.allianceName %}
+		<tr>
+			<th>Alliance:</th>
+		<td>{% include 'components/text_alli.html' %}</td>
+		</tr>
+	{% endif %}
+	{% if killdata.victim.factionName %}
+		<tr>
+			<th>Faction:</th>
+		<td>{% include 'components/text_faction.html' %}</td>
+		</tr>
+	{% endif %}
+	<tr>
+		<th>Ship:</th>
+		<td>{% include 'components/text_ship.html' %}</td>
+	</tr>
+	<tr>
+		<th>System:</th>
+		<td>{% include 'components/text_system.html' %} <span>(<span style="color: {{ field.systemColorCode }}">{{ "%1.1f"|format(field.solarSystemSecurity) }}</span>)</span></td>
+	</tr>
+	<tr>
+		<th>Time:</th>
+		<td>{{ killdata.info.killTime }}</td>
+	</tr>
+	<tr>
+		<th>Points:</th>
+		<td>{{ killdata.info.points | number_format(0) }}</td>
+	</tr>
+	<tr>
+		<th>Damage:</th>
+		<td>{{ killdata.victim.damage|number_format(0) }}</td>
+	</tr>
+	<tr class="item_dropped_row">
+		<th>Dropped:</th>
+		<td class="item_dropped">{{ extra.droppedisk|number_format(2, '.', ',') }} ISK</td>
+	</tr>
+	<tr>
+		<th>Destroyed:</th>
+		<td class="item_destroyed">{{ extra.lostisk | number_format(2, '.', ',') }} ISK</td>
+	</tr>
+	<tr>
+		<th class="item_dropped">Grand Total:</th>
+		<td><strong class="item_dropped">{{ killdata.info.total_price|number_format(2, '.', ',') }} ISK</strong></td>
+	</tr>
+</table>
