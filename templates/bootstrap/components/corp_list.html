@@ -1,0 +1,34 @@
+<table class="table table-hover table-striped">
+	<tr><th>Corp. Name</th><th>Ticker</th>
+	<th style="text-align: right">Members</th>
+	<th style="text-align: right">API</th>
+	<th style="text-align: right">API Key Count</th>
+	<th style="text-align: right">Errors Codes</th>
+	<th>Last Checked</th>
+	<th>Next Check</th>
+	</tr>
+{% for corp in corps %}
+	{% set field = corp %}
+	<tr>
+		<td>{% include 'components/text_corp.html' %}</td>
+		<td>[{{corp.ticker}}]</td>
+		<td style="text-align: right">{{ corp.memberCount | number_format(0) }}</td>
+		<td style="text-align: right">
+			{% if corp.apiVerified == 1%}<font class="green">API Verified</font>
+			{% elseif corp.apiPercentage is defined %}{{ corp.apiPercentage }}% Verified
+			{% endif %}
+		</td>
+		<td style="text-align: right">{{ corp.keyCount}}</td>
+		<td style="text-align: right">{{ corp.errors }}</td>
+		<td>{{ corp.lastCheckedTime }}</td>
+		<td>{{ corp.cachedUntilTime }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<div class="well"><strong>Popular Error Codes</strong>
+	<ul>
+		<li>0 - No error, the API is good!</li>
+		<li>119 - The API is being shared across Killboards.  This is bad and CCP does not approve. (faq link soon)</li>
+	</ul>
+</div>
