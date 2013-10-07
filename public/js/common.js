@@ -71,6 +71,11 @@ $(document).ready(function() {
 		$('.mobileNav').toggleClass('opened');
 		e.preventDefault();
 	});
+
+	// auto show comments tab on detail page
+	if(window.location.hash.match(/comments/)) {
+		$('a[href="#comments"]').tab('show');
+	}
 });
 
 function updateKillsLastHour() {
