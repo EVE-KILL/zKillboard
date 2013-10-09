@@ -1,37 +1,32 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% set pageTitle = 'Tickets' %}
 {% block title %}{% include 'components/title.html' %}{% endblock %}
 
 {% block content %}
-<div class="navbar">
-    <div class="navbar-inner">
-        <ul class="nav pull-left">
-            <li class="{{ isActive('tickets', pageview) }}"><a href="/tickets/">Tickets</a></li>
-            {% if sessionusername %}<li><a data-toggle="modal" data-target="#newIssue" href="#">New Issue</a></li>{% endif %}
-        </ul>
-    </div>
+<div class="navbar navbar-default">
+	<ul class="nav navbar-nav">
+		<li class="{{ isActive('tickets', pageview) }}"><a href="/tickets/">Tickets</a></li>
+		{% if sessionusername %}<li><a data-toggle="modal" data-target="#newIssue" href="#">New Issue</a></li>{% endif %}
+	</ul>
 </div>
 
 {% if message %} <h1>{{ message.message }}</h1> {% endif %}
 <h3><small>Ticket By:</small> {{ ticket.0.name }} <small>Created:</small> {{ ticket.0.datePosted }}</h3>
-<div class="well"><pre>{{ ticket.0.ticket|raw }}</pre></div>
-<hr/>
+<div class="well">
+	<p><strong>Ticket text:</strong></p>
+	{{ ticket.0.ticket|raw }}
+</div>
+<hr>
 
 {% if replies is not empty %}
 	<h4>Replies</h4>
 	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th class="span2"></th>
-				<th class="span10"></th>
-			</tr>
-		</thead>
 		<tbody>
 			{% for data in replies %}
 			<tr>
-				<td><strong>{{ data.name }} {% if data.moderator %}<span class="label label-info pull-right">Moderator</span>{% endif %}</strong></td>
-				<td><pre>{{ data.reply|raw }}</pre></td>
+				<td class="col-lg-3"><strong>{{ data.name }} {% if data.moderator %}<span class="green">Moderator</span>{% endif %}</strong></td>
+				<td>{{ data.reply|raw }}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -39,22 +34,21 @@
 {% endif %}
 
 {% if ticket.0.status %}
+<hr>
 <h4>Reply</h4>
-<div class="pull-left">
-	<form name="tickets" method="post" action="/tickets/view/{{ page }}/">
-		<div class="row">
-			<div class="span12">
-				<textarea id="reply" name="reply" type="text" required placeholder="Reply" style="width: 1155px;" rows="12"></textarea>
-			</div>
-			<button type="submit" class="btn btn-large btn-primary" style="margin-left: 30px;" >Post Reply</button>
-		</div>
-	</form>
-</div>
+<form name="tickets" method="post" action="/tickets/view/{{ page }}/">
+	<div class="form-group">
+		<textarea id="reply" name="reply" type="text" required placeholder="Reply" rows="12" class="form-control"></textarea>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Post Reply</button>
+	</div>
+</form>
 {% endif %}
 {% endblock %}
 
 {% block robots %}
-        <meta name="robots" content="nofollow, noindex">
+<meta name="robots" content="nofollow, noindex">
 {% endblock %}
 
 {% block style %}
