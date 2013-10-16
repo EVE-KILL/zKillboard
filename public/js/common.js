@@ -83,4 +83,15 @@ function updateKillsLastHour() {
 	setTimeout(updateKillsLastHour, 60000);
 }
 
+function revokeAccess() {
+	var s = prompt('Do you want to revoke access for this user?');
+
+	if(s != null) {
+		document.getElementById('reason').value = s;
+		return true;
+	}
+
+	return false;
+}
+
 $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });

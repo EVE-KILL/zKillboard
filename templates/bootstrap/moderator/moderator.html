@@ -1,44 +1,42 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}
   {% set pageTitle = 'Moderator' %}
   {% include 'components/title.html' %}
 {% endblock %}
 {% block content %}
   {% block panelheader %}
-	  <h1>Moderator Panel</h1>
+	  <h2>Moderator Panel</h2>
   {% endblock %}
 	{% if message %}
-		<div class="alert alert-{{ messagetype }} fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}</div>
+		<div class="alert alert-{{ messagetype }}" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>{{ message }}</div>
 	{% endif %}
-	<div class="navbar">
-		<div class="navbar-inner">
-			<ul class="nav">
-        <li class="{{ isActive('users', key) }}"><a href="/{{url}}/users/">Users</a></li>
-        <li class="{{ isActive('revokes', key) }}"><a href="/{{url}}/revokes/">Revokes</a></li>
-				{% block modonly %}
-          <li class="{{ isActive('reportedkills', key) }}"><a href="/{{url}}/reportedkills/">Reported Kills</a></li>
-		      <li class="{{ isActive('Tickets', key) }}"><a href ="/{{url}}/tickets/" >Tickets</a></li>
-        {% endblock %}
-        {% block menuitems %}
-        {% endblock %}
-    	</ul>
-		</div>
+	<div class="navbar navbar-default">
+		<ul class="nav navbar-nav">
+        	<li class="{{ isActive('users', key) }}"><a href="/{{url}}/users/">Users</a></li>
+	        <li class="{{ isActive('revokes', key) }}"><a href="/{{url}}/revokes/">Revokes</a></li>
+			{% block modonly %}
+			<li class="{{ isActive('reportedkills', key) }}"><a href="/{{url}}/reportedkills/">Reported Kills</a></li>
+			<li class="{{ isActive('Tickets', key) }}"><a href ="/{{url}}/tickets/" >Tickets</a></li>
+			{% endblock %}
+			{% block menuitems %}
+			{% endblock %}
+		</ul>
 	</div>
 	{% if key == 'tickets' and id != 0 %}
-		{% include url~"/ticket_view.html" %}
+		{% include url~'/ticket_view.html' %}
 	{% elseif key == 'tickets' %}
-    {% include url~"/tickets.html" %}
+		{% include url~'tickets.html' %}
 	{% elseif key == 'revokes' %}
-		{% include url~"/revokes.html" %}
+		{% include url~'/revokes.html' %}
 	{% elseif key == 'users' %}
-		{% include url~"/users.html" %} 
+		{% include url~'/users.html' %} 
 	{% elseif key == 'reportedkills' and id != 0 %}
-		{% include url~"/reportedkills_view.html" %}
+		{% include url~'/reportedkills_view.html' %}
 	{% elseif key == 'reportedkills' %}
-		{% include url~"/reportedkills.html" %}
-  {% elseif key == 'susers' %}
-    {% include url~"/susers.html" %}
-  {% endif %}
+		{% include url~'/reportedkills.html' %}
+	{% elseif key == 'susers' %}
+		{% include url~'/susers.html' %}
+	{% endif %}
  {% block menuinclude %} {% endblock %}
 {% endblock %}
 

@@ -1,82 +1,97 @@
-<div class="test">
-  <h2> General </h2>
-  <form name="revokeaccess" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Status:
-    <input type="hidden" name="userID" value="{{info[0].id}}">
-    <button type="submit" class="btn"
-    {% if info[0].revoked == 0 %}
-      disabled
-    {% endif %}
-    value="0" name="grantaccess" onclick="return confirm('Grant the user privliages?');">Grant Access </button>
-    <button type="submit" class="btn"
-    {% if info[0].revoked == 1 %}
-      disabled
-    {% endif %}
-    value="1" name="revokeaccess" onclick="return confirm('Revoke the users priviliages?');">Revoke Access</button>
-   <textarea id="reason" name="reason"> </textarea>
-  </form> 
-  {% if info[0].revoked == 1 %}
-    <pre>{{info[0].revoked_reason}} </pre>
-  {% endif %}
-  Name: {{info[0].username}} <br>
-  {% block email %} {% endblock %}
-
-  <h2> Eve </h2>
-  <h3> API </h3><br> 
-  <table class="table table-striped table-hover table-condense">
-    <thead>
-       <tr>
-       <th>keyid</th>
-       <th>vcode</th>
-       <th>Last Valid</th>
-       <th>Error Code</th>
-       <th></th>
-       <th></th>
-     </tr>
-    </thead>
-    <tbody>
-    {% for api in info.api %}
-      <tr>
-      <td>{{api.keyID}}</td>
-      <td>{{api.vCode}}</td>
-      <td>{{api.lastValidation}}</td>
-      <td>{{api.errorCode}}</td>
-      <td>
-        <form name="manualpull" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-          <input id="manualpull" name="manualpull" type="hidden" value="{{api.keyID}}">
-          <input type="submit" class="btn" value="Pull API" onclick="return confirm('Manual Pull This API');">
-        </form>
-      </td>
-      <td>
-      <form name="deleteapi" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-        <input id="deleteapi" name="deleteapi" type="hidden" value="{{api.keyID}}">
-        <input type="submit" class="btn" value="Delete API" onclick="return confirm('Are you shure you want to delete this api');">
-      </form>
-      </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  <h2> Access </h2>
-  <form name="allowmanualkm" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Manual KM's:
-    <button type="submit" class="btn" value="0" name="allowmanualkm" onclick="return confirm('Allow manual KM posting ?');">Yes</button>
-    <button type="submit" class="btn" value="1" name="allowmanualkm" onclick="return confirm('Deny manual KM posting ?');">No </button>
-  </form>
-  <form name="allowcommentating" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Commentating:
-    <button type="submit" class="btn" value="0" name="allowcommentating" onclick="return confirm('Allow this user to comment on kills?');">Yes</button>
-    <button type="submit" class="btn" value="1" name="allowcommentating" onclick="return confirm('Deny this user to comment on kills?');">No</button>
-  </form>
-  <form name="allowjabber" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Jabber:
-    <button type="submit" class="btn" value="0" name="allowjabber" onclick="return confirm('Allow the user to use Jabber?');">Yes</button>
-    <button type="submit" class="btn" value="1" name="allowjabber" onclick="return confirm('Deny the user to use Jabber?');">No</button>
-  </form>
-  <form name="setirclevel" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    IRC:
-    <input type="text" name="level" value="10">
-    <input type="submit" class="btn" value="Set IRC level" onclick="return confirm('Change users acces level?');">
-  </form>
-  {% block adminsettings %} {% endblock %}
+<h3>General</h3>
+<div class="well">
+	<form class="form-horizontal" name="revokeaccess" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+		<div class="form-group">
+			<label for="status" class="form-label col-xs-2">Status:</label>
+			<div class="col-xs-10">
+				<input type="hidden" name="userID" value="{{info[0].id}}">
+				{% if info[0].revoked == 0 %}
+				<button type="submit" id="status" class="btn btn-danger" value="1" name="revokeaccess" onclick="return revokeAccess();">Revoke Access</button>
+				{% else %}
+				<button type="submit" id="status" class="btn btn-success" value="0" name="grantaccess" onclick="return confirm('Are you sure you want to grant access to {{info[0].username}}?');">Grant Access </button>
+				{% endif %}
+				<textarea id="reason" name="reason" class="hidden"></textarea>
+				{% if info[0].revoked == 1 %}
+					<p class="pull-right red"><strong>Access revoked! Reason:</strong> {{info[0].revoked_reason}}</p>
+				{% endif %}
+			</div>
+		</div>
+	</form> 
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label for="name" class="form-label col-xs-2">Name:</label> 
+			<div class="col-xs-4">
+				<input type="input" class="form-control" value="{{info[0].username}}" disabled>
+			</div>
+		</div>
+	</div>
+{% block email %} {% endblock %}
 </div>
+
+<hr>
+
+<h3>API</h3> 
+<table class="table table-striped table-hover table-condense">
+	<thead>
+		<tr>
+			<th>keyid</th>
+			<th>vcode</th>
+			<th>Last Valid</th>
+			<th>Error Code</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for api in info.api %}
+		<tr>
+			<td>{{api.keyID}}</td>
+			<td>{{api.vCode}}</td>
+			<td>{{api.lastValidation}}</td>
+			<td>{{api.errorCode}}</td>
+			<td>
+				<div class="white-space: nowrap">
+					<form class="pull-right" name="manualpull" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+						<input id="manualpull" name="manualpull" type="hidden" value="{{api.keyID}}">
+						<input type="submit" class="btn btn-primary btn-sm" value="Pull API" onclick="return confirm('Manual Pull This API');">
+					</form>
+					<form class="pull-right" name="deleteapi" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+						<input id="deleteapi" name="deleteapi" type="hidden" value="{{api.keyID}}">
+						<input type="submit" class="btn btn-danger btn-sm" value="Delete API" onclick="return confirm('Are you shure you want to delete this api');">
+					</form>
+				</div>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<hr>
+
+<h3>Access</h3>
+<div class="well">
+	<form name="allowmanualkm" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+		<label class="form-label col-xs-2">Manual KM's:</label>
+		<button type="submit" class="btn btn-success btn-sm" value="0" name="allowmanualkm" onclick="return confirm('Allow manual KM posting ?');">Yes</button>
+		<button type="submit" class="btn btn-danger btn-sm" value="1" name="allowmanualkm" onclick="return confirm('Deny manual KM posting ?');">No </button>
+	</form>
+	<form name="allowcommentating" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+		<label class="form-label col-xs-2">Commentating:</label>
+		<button type="submit" class="btn btn-success btn-sm" value="0" name="allowcommentating" onclick="return confirm('Allow this user to comment on kills?');">Yes</button>
+		<button type="submit" class="btn btn-danger btn-sm" value="1" name="allowcommentating" onclick="return confirm('Deny this user to comment on kills?');">No</button>
+	</form>
+	<form name="allowjabber" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+		<label class="form-label col-xs-2">Jabber:</label>
+			<button type="submit" class="btn btn-success btn-sm" value="0" name="allowjabber" onclick="return confirm('Allow the user to use Jabber?');">Yes</button>
+			<button type="submit" class="btn btn-danger btn-sm" value="1" name="allowjabber" onclick="return confirm('Deny the user to use Jabber?');">No</button>
+	</form>
+	<form name="setirclevel" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+		<label class="form-label col-xs-2">IRC:</label>
+		<div class="row">
+			<div class="col-xs-1">
+				<input type="text" name="level" value="10" class="form-control input-sm">
+			</div>
+			<input type="submit" class="btn btn-primary btn-sm" value="Set IRC level" onclick="return confirm('Change users acces level?');">
+		</div>
+	</form>
+</div>
+{% block adminsettings %} {% endblock %}

@@ -1,39 +1,39 @@
-{% extends "/moderator/users.html" %}
+{% extends '/moderator/users.html' %}
 {% block useradmin %}
-            {% if data.admin %}
-                <td>
-				    <form name="revokeadmin" method="post" action="/{{url}}/users/">
-						<input id="revokeadmin" name="revokeadmin" type="hidden" value="0">
-						<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
-						<input type="submit" class="btn btn-danger" value="Revoke Admin" onclick="return confirm('Are you sure you want to revoke admin for {{ data.username }}?');">
-					</form>
-				</td>
-            {% else %}
-                <td>
-				    <form name="grantadmin" method="post" action="/{{url}}/users/">
-						<input id="grantadmin" name="grantadmin" type="hidden" value="1">
-						<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
-						<input type="submit" class="btn btn-primary" value="Grant Admin" onclick="return confirm('Are you sure you want to grant admin to {{ data.username }}?');">
-					</form>
-				</td>
-            {% endif %}
+{% if data.admin %}
+<td>
+	<form name="revokeadmin" method="post" action="/{{url}}/users/">
+		<input id="revokeadmin" name="revokeadmin" type="hidden" value="0">
+		<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
+		<input type="submit" class="btn btn-danger" value="Revoke Admin" onclick="return confirm('Are you sure you want to revoke admin for {{ data.username }}?');">
+	</form>
+</td>
+{% else %}
+<td>
+	<form name="grantadmin" method="post" action="/{{url}}/users/">
+		<input id="grantadmin" name="grantadmin" type="hidden" value="1">
+		<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
+		<input type="submit" class="btn btn-primary" value="Grant Admin" onclick="return confirm('Are you sure you want to grant admin to {{ data.username }}?');">
+	</form>
+</td>
+{% endif %}
 {% endblock %}
 {% block usermod %}
-            {% if data.moderator %}
-                <td>
-				    <form name="revokemoderator" method="post" action="/{{url}}/users/">
-						<input id="revokemoderator" name="revokemoderator" type="hidden" value="0">
-						<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
-						<input type="submit" class="btn btn-danger" value="Revoke Moderator" onclick="return confirm('Are you sure you want to revoke moderator for {{ data.username }}?');">
-					</form>
-				</td>
-            {% else %}
-                <td>
-				    <form name="grantmoderator" method="post" action="/{{url}}/users/">
-						<input id="grantmoderator" name="grantmoderator" type="hidden" value="1">
-						<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
-						<input type="submit" class="btn btn-primary" value="Grant Moderator" onclick="return confirm('Are you sure you want to grant moderator to {{ data.username }}?');">
-					</form>
-				</td>
-            {% endif %}
+{% if data.moderator %}
+<td>
+	<form name="revokemoderator" method="post" action="/{{url}}/users/">
+		<input id="revokemoderator" name="revokemoderator" type="hidden" value="0">
+		<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
+		<input type="submit" class="btn btn-danger" value="Revoke Moderator" onclick="return confirm('Are you sure you want to revoke moderator for {{ data.username }}?');">
+	</form>
+</td>
+{% else %}
+<td>
+	<form name="grantmoderator" method="post" action="/{{url}}/users/">
+		<input id="grantmoderator" name="grantmoderator" type="hidden" value="1">
+		<input id="userID" name="userID" type="hidden" value="{{ data.id }}">
+		<input type="submit" class="btn btn-primary" value="Grant Moderator" onclick="return confirm('Are you sure you want to grant moderator to {{ data.username }}?');">
+	</form>
+</td>
+{% endif %}
 {% endblock %}

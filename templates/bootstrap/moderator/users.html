@@ -30,7 +30,12 @@
             <td> </td>
             {% else %}
                 <td>
-					<a data-toggle="modal" data-id="{{ data.id }}" data-toggle="modal" title="Revoke access" class="open-userid btn btn-danger" href="#access">Revoke Access</a>
+					<form name="revokeaccess" method="post" action="/{{url}}/users/">
+						<input id="revokeaccess" name="revokeaccess" type="hidden" value="1">
+						<input id="userID" name="userID" type="hidden" value="">
+						<textarea id="reason" name="reason" class="hidden"></textarea>
+						<button type="submit" id="status" class="btn btn-danger" value="1" name="revokeaccess" onclick="return revokeAccess();">Revoke Access</button>
+					</form>	
 				</td>
             {% endif %} 
             {% endif %}
@@ -39,7 +44,7 @@
 </tbody>
 </table>
 
-<div class="modal hide" id="access">
+<div class="modal" id="access">
  <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
     <h3>Revoke Access</h3>

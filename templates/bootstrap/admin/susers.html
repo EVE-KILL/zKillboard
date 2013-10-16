@@ -1,14 +1,19 @@
-{% extends "/moderator/susers.html" %}
+{% extends '/moderator/susers.html' %}
 {% block email %}
- <form name="changemail" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Email:
-    <input type="hidden" name="userID" value="{{info[0].id}}">
-    <input type="text" name="email" value="{{info[0].email}}">
-    <input type="submit" class="btn" value="Change Email" onclick="return confirm('Change the users email?');">
+<form class="form-horizontal" name="changemail" method="post" action="/{{url}}/susers/{{info[0].id}}/">
+	<div class="form-group">
+		<label for="email" class="form-label col-xs-2">Email:</label>
+		<div class="col-xs-4">
+			<p>	
+				<input type="hidden" name="userID" value="{{info[0].id}}">
+				<input type="text" name="email" value="{{info[0].email}}" class="form-control">
+				<input type="submit" class="btn btn-default" value="Change Email" onclick="return confirm('Change the users email?');"></p>
+		</div>
+	</div>
  </form>
 {% endblock %}
 {% block adminsettings %}
-<h2> Admin settings </h2>
+<h2>Admin settings</h2>
 <form name="changemod" method="post" action="/{{url}}/susers/{{info[0].id}}/">
 Moderator:
 <input type="hidden" name="userID" value="{{info[0].id}}">

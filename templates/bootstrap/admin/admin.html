@@ -1,4 +1,4 @@
-{% extends "/moderator/moderator.html" %}
+{% extends '/moderator/moderator.html' %}
 
 {% block title %}
   {% set pageTitle = 'Admin' %}
@@ -6,20 +6,20 @@
 {% endblock %}
 
 {% block panelheader %}
-	<h1>Admin Panel</h1>
+<h2>Admin Panel</h2>
 {% endblock %}
 {% block modonly %} 
 {% endblock %}
 {% block menuitems %}	
-  <li class="{{ isActive('irc', key) }}"><a href="/{{url}}/irc/">IRC Users</a></li>
-  <li class="{{ isActive('commandlog', key) }}"><a href="/{{url}}/commandlog/">Command Log</a></li>
+	<li class="{{ isActive('irc', key) }}"><a href="/{{url}}/irc/">IRC Users</a></li>
+	<li class="{{ isActive('commandlog', key) }}"><a href="/{{url}}/commandlog/">Command Log</a></li>
 {% endblock %}
 {% block menuinclude %}
-	{% if key == 'blog' %}
-		{% include url~"/blog.html" %}
-  {% elseif key == 'irc' %}
-    {% include url~"/irc.html" %}
-  {% elseif key == 'commandlog' %}
-    {% include url~"/commandlog.html" %}
-  {% endif %}
+{% if key == 'blog' %}
+	{% include url~'/blog.html' %}
+{% elseif key == 'irc' %}
+	{% include url~'/irc.html' %}
+{% elseif key == 'commandlog' %}
+	{% include url~'/commandlog.html' %}
+{% endif %}
 {% endblock %}
