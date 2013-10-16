@@ -29,6 +29,7 @@ class Admin extends Moderator
    * @param $bool 1= set admin 0 = remove admin
    */
   public static function setAdmin($userID,$bool){
+    if (!User::isAdmin()) throw new Exception("Invalid Access!");
     Db::execute("UPDATE zz_users SET admin = :access WHERE id = :id", array(":id" => $userID, ":access" => $bool));
   }
   /**
@@ -39,6 +40,7 @@ class Admin extends Moderator
    * @param $bool 1 = set admin 0 = remove admin
    */
   public static function setMod($userID,$bool){
+  if (!User::isAdmin()) throw new Exception("Invalid Access!");
     Db::execute("UPDATE zz_users SET moderator = :access WHERE id = :id", array(":id" => $userID, ":access" => $bool));
   }
  /**
@@ -49,6 +51,7 @@ class Admin extends Moderator
    * @param $email, the new email address
    */
   public static function setEmail($userID,$email){
+    if (!User::isAdmin()) throw new Exception("Invalid Access!");
     Db::execute("UPDATE zz_users SET email = :email WHERE id = :id",array(":id" => $userID,":email" => $email));
   }
 

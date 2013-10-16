@@ -10,19 +10,25 @@
 <tbody>
     {% for data in info %}
         <tr>
-            <td>{{ data.id }}</td>
+          <td><form name="commandlog" method="post" action ="/admin/commandlog/{{data.id}}">
+              <input id="ircuserid" name="ircuserid" type="hidden" value="{{data.id}}">
+              <input id="commandlog" name="commandlog" type="hidden" value= 0 >
+              <input type="submit" class="btn btn-default" value="{{data.id}}">
+            </form>  
+          </td>
             <td>{{ data.name }}</td>
             <td>{{ data.host }}</td>
             <td class="span3">
-                <form name="deleteuser" method="post" action="/admin/irc/">
+                <form name="modifyaccess" method="post" action="/admin/irc/">
                     <input class="span1" id="accessLevel" name="accessLevel" type="text" value="{{ data.accessLevel }}">
-                    <input id="accessLevelID" name="accessLevelID" type="hidden" value="{{ data.id }}">
+                    <input id="ircuserid" name="ircuserid" type="hidden" value="{{ data.id }}">
                     <input type="submit" class="btn btn-default" value="Alter" onclick="return confirm('Are you sure you want to Alter {{ data.name }}\'s access?');">
                 </form>
             </td>
             <td>{{ data.insertTime }}</td>
             <td>
-                <form name="deleteuser" method="post" action="/admin/irc/">
+              <form name="deleteuser" method="post" action="/admin/irc/">
+                    <input id="deleteirc" name="deleteirc" type="hidden" value = 0>
                     <input id="ircuserid" name="ircuserid" type="hidden" value="{{ data.id }}">
                     <input type="submit" class="btn btn-danger" value="Remove" onclick="return confirm('Are you sure you want to remove {{ data.name }}\'s access?');">
                 </form>
