@@ -24,10 +24,12 @@ if($_POST)
 {
     if(isset($_POST["ircuserid"]))
         $ircuserid = $_POST["ircuserid"];
-    if(isset($_POST["accessLevelID"]))
-        $accessLevelID = $_POST["accessLevelID"];
     if(isset($_POST["accessLevel"]))
-        $accessLevel = $_POST["accessLevel"];
+      $accessLevel = $_POST["accessLevel"];
+    if(issset($_POST["deleteirc"]))
+      $deleteirc = $_POST["deleteirc"];
+    if(isset($_POST["commandlog"]));
+      $commandlog = $_POST["commandlog"];
     if(isset($_POST["grantadmin"]))
 		$grantadmin = $_POST["grantadmin"];
     if(isset($_POST["grantmoderator"]))
@@ -50,14 +52,14 @@ if($_POST)
     $manualpull = $_POST["manualpull"];
   if(isset($_POST["deleteapi"]))
     $deleteapi = $_POST["deleteapi"];
-    if(isset($ircuserid))
+    if(isset($ircuserid) && isset($deleteirc))
     {
         Db::execute("DELETE FROM zz_irc_access WHERE id = :id", array(":id" => $ircuserid));
         $message = "User deleted";
     }
-    if(isset($accessLevel) && isset($accessLevelID))
+    if(isset($accessLevel) && isset($ircuserid))
     {
-        Db::execute("UPDATE zz_irc_access SET accessLevel = :accessLevel WHERE id = :id", array(":accessLevel" => $accessLevel, ":id" => $accessLevelID));
+        Db::execute("UPDATE zz_irc_access SET accessLevel = :accessLevel WHERE id = :id", array(":accessLevel" => $accessLevel, ":id" => $ircuserid));
         $message = "User's access has been updated";
     }
 	if(isset($grantadmin) && isset($userID))
@@ -104,19 +106,10 @@ if($_POST)
     $message = "The Api had been deleted";
   }
 }
-
 if($req == "users")
 {
+
   $info = Admin::getUsers();
-}
-elseif($req == "blog")
-{
-    $info = Db::query("SELECT * FROM zz_blog ORDER BY date DESC", array(), 0);
-    foreach($info as $key => $val)
-    {
-        // Should probably do a query here to find all the comments, and append them or something.. oh well
-        $info[$key]["commentcount"] = Comments::getPageCommentCount("blog:".$info[$key]["blogID"]);
-    }
 }
 elseif($req == "revokes")
 {
@@ -128,7 +121,11 @@ elseif($req == "irc")
 }
 elseif($req == "commandlog")
 {
-    $info = Db::query("SELECT * FROM zz_irc_log ORDER BY date DESC", array(), 0);
+  if(isset($ircuserid)){
+    $info = Db::query("SELECT * FROM zz_irc_log WHERE id = :id ORDER BY date DESC", array(":id"=> $ircuserid), 0);
+  }else{
+  $app->redirect("/admin/irc");
+  }
 }
 elseif($req == "email")
 {
@@ -151,6 +148,6 @@ elseif($req == "susers" )
 
   }
 }else{
-$app->redirect("users/");
+$app->redirect("/admin/users/");
 }
 $app->render("admin/admin.html", array("info" => $info, "url" => "admin", "key" => $req, "message" => $message));
