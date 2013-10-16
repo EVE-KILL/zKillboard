@@ -68,15 +68,5 @@
     <button type="submit" class="btn" value="0" name="allowcommentating" onclick="return confirm('Allow this user to comment on kills?');">Yes</button>
     <button type="submit" class="btn" value="1" name="allowcommentating" onclick="return confirm('Deny this user to comment on kills?');">No</button>
   </form>
-  <form name="allowjabber" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    Jabber:
-    <button type="submit" class="btn" value="0" name="allowjabber" onclick="return confirm('Allow the user to use Jabber?');">Yes</button>
-    <button type="submit" class="btn" value="1" name="allowjabber" onclick="return confirm('Deny the user to use Jabber?');">No</button>
-  </form>
-  <form name="setirclevel" method="post" action="/{{url}}/susers/{{info[0].id}}/">
-    IRC:
-    <input type="text" name="level" value="10">
-    <input type="submit" class="btn" value="Set IRC level" onclick="return confirm('Change users acces level?');">
-  </form>
   {% block adminsettings %} {% endblock %}
 </div>

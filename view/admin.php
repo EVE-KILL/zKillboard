@@ -22,44 +22,46 @@ $message = "";
 $reason = "default";
 if($_POST)
 {
-    if(isset($_POST["ircuserid"]))
-        $ircuserid = $_POST["ircuserid"];
-    if(isset($_POST["accessLevelID"]))
-        $accessLevelID = $_POST["accessLevelID"];
-    if(isset($_POST["accessLevel"]))
-        $accessLevel = $_POST["accessLevel"];
-    if(isset($_POST["grantadmin"]))
-		$grantadmin = $_POST["grantadmin"];
-    if(isset($_POST["grantmoderator"]))
-		$grantmoderator = $_POST["grantmoderator"];
-    if(isset($_POST["grantaccess"]))
-		$grantaccess = $_POST["grantaccess"];
-    if(isset($_POST["revokeadmin"]))
-		$revokeadmin = $_POST["revokeadmin"];
-    if(isset($_POST["revokemoderator"]))
-		$revokemoderator = $_POST["revokemoderator"];
-    if(isset($_POST["revokeaccess"]))
-		$revokeaccess = $_POST["revokeaccess"];
-	if(isset($_POST["reason"]))
-		$reason = $_POST["reason"];
-	if(isset($_POST["userID"]))
-		$userID = $_POST["userID"];
+  if(isset($_POST["ircuserid"]))
+    $ircuserid = $_POST["ircuserid"];
+  if(isset($_POST["accessLevel"]))
+    $accessLevel = $_POST["accessLevel"];
+  if(issset($_POST["deleteirc"]))
+    $deleteirc = $_POST["deleteirc"];
+  if(isset($_POST["commandlog"]));
+    $commandlog = $_POST["commandlog"];
+  if(isset($_POST["grantadmin"]))
+    $grantadmin = $_POST["grantadmin"];
+  if(isset($_POST["grantmoderator"]))
+    $grantmoderator = $_POST["grantmoderator"];
+  if(isset($_POST["grantaccess"]))
+    $grantaccess = $_POST["grantaccess"];
+  if(isset($_POST["revokeadmin"]))
+    $revokeadmin = $_POST["revokeadmin"];
+  if(isset($_POST["revokemoderator"]))
+    $revokemoderator = $_POST["revokemoderator"];
+  if(isset($_POST["revokeaccess"]))
+    $revokeaccess = $_POST["revokeaccess"];
+  if(isset($_POST["reason"]))
+    $reason = $_POST["reason"];
+  if(isset($_POST["userID"]))
+    $userID = $_POST["userID"];
   if(isset($_POST["email"]))
     $email = $_POST["email"];
   if(isset($_POST["manualpull"]))
     $manualpull = $_POST["manualpull"];
   if(isset($_POST["deleteapi"]))
     $deleteapi = $_POST["deleteapi"];
-    if(isset($ircuserid))
-    {
-        Db::execute("DELETE FROM zz_irc_access WHERE id = :id", array(":id" => $ircuserid));
-        $message = "User deleted";
-    }
-    if(isset($accessLevel) && isset($accessLevelID))
-    {
-        Db::execute("UPDATE zz_irc_access SET accessLevel = :accessLevel WHERE id = :id", array(":accessLevel" => $accessLevel, ":id" => $accessLevelID));
-        $message = "User's access has been updated";
-    }
+  if(isset($ircuserid) && isset($deleteirc))
+  {
+    Db::execute("DELETE FROM zz_irc_access WHERE id = :id", array(":id" => $ircuserid));
+    $message = "User deleted";
+  }
+  if(isset($accessLevel) && isset($ircuserid))
+  {
+    Db::execute("UPDATE zz_irc_access SET accessLevel = :accessLevel WHERE id = :id", array(":accessLevel" => $accessLevel, ":id" => $ircuserid));
+    $message = "User's access has been updated";
+  }
 	if(isset($grantadmin) && isset($userID))
 	{
 		Admin::setAdmin($userID,1);
@@ -97,38 +99,32 @@ if($_POST)
   }
   if(isset($manualpull)  )
   {
-  $message = "ah";
+    $message = "ah";
   }
   if(isset($deleteapi)){
     Api::deleteKey($deleteapi);
     $message = "The Api had been deleted";
   }
 }
-
 if($req == "users")
 {
   $info = Admin::getUsers();
 }
-elseif($req == "blog")
-{
-    $info = Db::query("SELECT * FROM zz_blog ORDER BY date DESC", array(), 0);
-    foreach($info as $key => $val)
-    {
-        // Should probably do a query here to find all the comments, and append them or something.. oh well
-        $info[$key]["commentcount"] = Comments::getPageCommentCount("blog:".$info[$key]["blogID"]);
-    }
-}
 elseif($req == "revokes")
 {
-    $info = Db::query("SELECT id, username, email, revoked_reason FROM zz_users WHERE revoked = 1 ORDER BY id DESC", array(), 0);
+  $info = Db::query("SELECT id, username, email, revoked_reason FROM zz_users WHERE revoked = 1 ORDER BY id DESC", array(), 0);
 }
 elseif($req == "irc")
 {
-    $info = Db::query("SELECT * FROM zz_irc_access ORDER BY name DESC", array(), 0);
+  $info = Db::query("SELECT * FROM zz_irc_access ORDER BY name DESC", array(), 0);
 }
 elseif($req == "commandlog")
 {
-    $info = Db::query("SELECT * FROM zz_irc_log ORDER BY date DESC", array(), 0);
+  if(isset($ircuserid)){
+    $info = Db::query("SELECT * FROM zz_irc_log WHERE id = :id ORDER BY date DESC", array(":id"=> $ircuserid), 0);
+  }else{
+    $app->redirect("/admin/irc");
+  }
 }
 elseif($req == "email")
 {
@@ -148,9 +144,8 @@ elseif($req == "susers" )
     }
   }else{
   $app->redirect("/admin/users/");
-
   }
 }else{
-$app->redirect("users/");
+  $app->redirect("/admin/users/");
 }
 $app->render("admin/admin.html", array("info" => $info, "url" => "admin", "key" => $req, "message" => $message));

@@ -12,12 +12,9 @@
 {% endblock %}
 {% block menuitems %}	
   <li class="{{ isActive('irc', key) }}"><a href="/{{url}}/irc/">IRC Users</a></li>
-  <li class="{{ isActive('commandlog', key) }}"><a href="/{{url}}/commandlog/">Command Log</a></li>
 {% endblock %}
 {% block menuinclude %}
-	{% if key == 'blog' %}
-		{% include url~"/blog.html" %}
-  {% elseif key == 'irc' %}
+  {% if key == 'irc' %}
     {% include url~"/irc.html" %}
   {% elseif key == 'commandlog' %}
     {% include url~"/commandlog.html" %}
