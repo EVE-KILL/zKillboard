@@ -309,7 +309,7 @@ class Api
 		while ($timer->stop() < $maxTime) {
 			Db::execute("delete from zz_api_characters where isDirector = ''");
 
-			$allChars = Db::query("select apiRowID, cachedUntil from zz_api_characters where errorCount < 10 and cachedUntil < date_sub(now(), interval 30 second) order by cachedUntil, keyID, characterID limit 1000", array(), 0);
+			$allChars = Db::query("select apiRowID, cachedUntil from zz_api_characters where errorCode < 10 and cachedUntil < date_sub(now(), interval 30 second) order by cachedUntil, keyID, characterID limit 1000", array(), 0);
 
 			$total = sizeof($allChars);
 			$corpsToSkip = array();
