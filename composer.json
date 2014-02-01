@@ -4,7 +4,7 @@
 			"slim/extras": "*",
 			"twig/twig": "*",
 			"twig/extensions": "*",
-			"pheal/pheal": "*",
+			"3rdpartyeve/phealng": "0.3.*",
 			"phpmailer/phpmailer": "*",
 			"mobiledetect/mobiledetectlib": "*",
 			"realityking/pchart": "@dev",

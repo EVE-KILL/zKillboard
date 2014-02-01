@@ -149,7 +149,7 @@ class cli_feedEDK implements cliCommand
 						{
 							$data = self::fetchUrl($url);
 							$xml = new SimpleXMLElement($data, null, false, "", false);
-							$result = new PhealResult($xml);
+							$result = new \Pheal\Core\Result($xml);
 							$insertCount = self::processAPI($result, $db);
 							$db->execute("UPDATE zz_feeds SET lastFetchTime = :time WHERE url = :url", array(":time" => date("Y-m-d H:i:s"), ":url" => $url));
 							if($insertCount > 0)
@@ -200,7 +200,9 @@ class cli_feedEDK implements cliCommand
 	}
 
 	/**
-	 * @param PhealResult $data
+	 * @param \Pheal\Core\Result $data
+	 * @param mixed $db
+	 * @return int
 	 */
 	private static function processAPI($data, $db)
 	{

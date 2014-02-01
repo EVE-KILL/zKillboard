@@ -13,3 +13,5 @@ public/report.html
 cache/sessions
 .tags
 .tags_sorted_by_file
+atlassian-ide-plugin.xml
+.idea

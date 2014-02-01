@@ -30,25 +30,25 @@ class Util
 	public static function getPheal($keyID = null, $vCode = null)
 	{
 		global $phealCacheLocation, $apiServer, $baseAddr, $ipsAvailable;
-		PhealConfig::getInstance()->http_method = "curl";
-		PhealConfig::getInstance()->http_user_agent = "API Fetcher for http://$baseAddr";
+		\Pheal\Core\Config::getInstance()->http_method = "curl";
+		\Pheal\Core\Config::getInstance()->http_user_agent = "API Fetcher for http://$baseAddr";
 		if(!empty($ipsAvailable))
 		{
 			$max = count($ipsAvailable)-1;
 			$ipID = mt_rand(0, $max);
-			PhealConfig::getInstance()->http_interface_ip = $ipsAvailable[$ipID];
+			\Pheal\Core\Config::getInstance()->http_interface_ip = $ipsAvailable[$ipID];
 		}
-		PhealConfig::getInstance()->http_post = false;
-		PhealConfig::getInstance()->http_keepalive = true; // default 15 seconds
-		PhealConfig::getInstance()->http_keepalive = 10; // KeepAliveTimeout in seconds
-		PhealConfig::getInstance()->http_timeout = 30;
-		if ($phealCacheLocation != null) PhealConfig::getInstance()->cache = new PhealFileCache($phealCacheLocation);
-		PhealConfig::getInstance()->log = new PhealLogger();
-		PhealConfig::getInstance()->api_customkeys = true;
-		PhealConfig::getInstance()->api_base = $apiServer;
+		\Pheal\Core\Config::getInstance()->http_post = false;
+		\Pheal\Core\Config::getInstance()->http_keepalive = true; // default 15 seconds
+		\Pheal\Core\Config::getInstance()->http_keepalive = 10; // KeepAliveTimeout in seconds
+		\Pheal\Core\Config::getInstance()->http_timeout = 30;
+		if ($phealCacheLocation != null) \Pheal\Core\Config::getInstance()->cache = new \Pheal\Cache\FileStorage($phealCacheLocation);
+		\Pheal\Core\Config::getInstance()->log = new PhealLogger();
+		\Pheal\Core\Config::getInstance()->api_customkeys = true;
+		\Pheal\Core\Config::getInstance()->api_base = $apiServer;
 
-			if ($keyID != null && $vCode != null) $pheal = new Pheal($keyID, $vCode);
-			else $pheal = new Pheal();
+			if ($keyID != null && $vCode != null) $pheal = new \Pheal\Pheal($keyID, $vCode);
+			else $pheal = new \Pheal\Pheal();
 		return $pheal;
 	}
 
@@ -59,6 +59,7 @@ class Util
 	}
 
 	/**
+	 * @param string $haystack
 	 * @param string $needle
 	 */
 	public static function startsWith($haystack, $needle)
