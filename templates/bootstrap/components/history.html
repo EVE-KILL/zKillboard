@@ -11,6 +11,7 @@
 	<th><span class="pull-right red">Losses</span></th>
 	<th><span class="pull-right red">Points</span></th>
 	<th><span class="pull-right red">ISK</span></th>
+	<th><span class="pull-right">Efficiency</span></th>
 	<th><span class="pull-right">Top 10</span></th>
 </tr>
 {% for month in history %}
@@ -26,6 +27,7 @@
 		<td><span class="pull-right red">{{ month.lost | number_format(0) }}</span></td>	
 		<td><span class="pull-right red">{{ month.pointsLost | number_format(0) }}</span></td>	
 		<td><span class="pull-right red">{{ formatIsk(month.iskLost) }}</span></td>	
+		<td><span class="pull-right">{{ ((month.lost == 0) ? 100 : (month.destroyed / month.lost) * 100) | round(2) }}%</span></td>
 		<td><span class="pull-right"><a href="/{{ key }}/{{ id }}/top/year/{{ month.year }}/month/{{ month.month }}/">{{ month.month }} / {{ month.year }}</a></span></td>
 	<tr>
 {% endfor %}
