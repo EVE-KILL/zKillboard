@@ -34,8 +34,9 @@ class PhealLogger implements \Pheal\Log\CanLog
 				array(":scope" => $scope, ":name" => $name, ":options" => json_encode($opts), ":error" => substr($message, 0, 127)));
 		if (Util::startsWith($message, "904:"))
 		{
-			Db::execute("replace into zz_storage values ('ApiStop904', date_add(now(), interval 1 minute))");
-			Log::log("Killing API transactions in this thread: $message");
+			global $debug;
+			Db::execute("replace into zz_storage values ('ApiStop904', date_add(now(), interval 5 minute))");
+			if ($debug) Log::log("Killing API transactions in this thread: $message");
 			die();
 		}
 	}
