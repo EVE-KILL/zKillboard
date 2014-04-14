@@ -225,6 +225,10 @@ class Util
 					if (!is_numeric($value)) throw new Exception("$value is not a valid entry for $key");
 					$parameters[$key] = (int) $value;
 				break;
+				case "iskValue":
+					if (!is_numeric($value)) throw new Exception("$value is not a valid entry for $key");
+					$parameters[$key] = (int) $value;
+				break;
 				case "xml":
 					$parameters[$key] = true;
 				break;
