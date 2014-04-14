@@ -51,6 +51,7 @@ class cli_updateCharacters implements cliCommand
 		$timer = new Timer();
 		foreach ($result as $row) {
 			if (Util::isMaintenanceMode()) return;
+			if (Util::is904Error()) return;
 			$id = $row["characterID"];
 			$db->execute("update zz_characters set lastUpdated = now() where characterID = :id", array(":id" => $id));
 			if ($id >= 2100000000 && $id < 2199999999) continue; // Dust Characters

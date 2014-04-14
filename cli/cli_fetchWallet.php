@@ -35,6 +35,7 @@ class cli_fetchWallet implements cliCommand
 
 	public function execute($parameters, $db)
 	{
+		if (Util::is904Error()) return;
 		global $walletApis;
 
 		foreach ($walletApis as $api)
