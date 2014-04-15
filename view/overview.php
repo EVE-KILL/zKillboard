@@ -112,6 +112,16 @@ if ($pageType == "top" || ($pageType == "topalltime" && in_array($key, $validAll
 		$topLists[] = array("name" => "Top Faction Corporations", "type" => "corporation", "data" => Stats::getTopCorps($topParameters, true));
 		$topLists[] = array("name" => "Top Faction Allianes", "type" => "alliance", "data" => Stats::getTopAllis($topParameters, true));
 	}
+} else {
+                $p = $parameters;
+                $numDays = 7;
+                $p["limit"] = 10;
+                $p["pastSeconds"] = $numDays * 86400;
+                $p["kills"] = $pageType != "losses";
+
+		$topLists[] = Info::doMakeCommon("Top Characters", "characterID", Stats::getTopPilots($p));
+		$topLists[] = Info::doMakeCommon("Top Corporations", "corporationID", Stats::getTopCorps($p));
+                $topLists[] = Info::doMakeCommon("Top Alliances", "allianceID", Stats::getTopAllis($p));
 }
 
 $corpList = array();

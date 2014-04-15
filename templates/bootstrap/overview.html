@@ -75,8 +75,10 @@
 </div>
 </div>
 
-{% if pageType == 'overview' %}
-    {% if isTablet == true or isMobile == false %}{% if useSummaryAccordion == "true" %}{% include 'components/summary_accordion.html' %}{% else %}{% include 'components/summary.html' %}{% endif %}{% endif %}
+<div class="row">
+{% if pageType == 'overview' or pageType == 'kills' or pageType == 'solo' or pageType == 'losses' %}
+    {% if pageType == 'overview' %}{% include 'components/summary_accordion.html' %}<hr/>{% endif %}
+  <div class="col-lg-10 pull-left" style="padding-left: 0px;">
     {% if mixed %}
         {% set killListTitle = 'Recent Activity' %}
     {% else %}
@@ -86,8 +88,7 @@
     {% set mixed = 0 %}
 	{% set numPages = combinedPages %}
 	{% set isEmbedded = true %}
-    {% include 'components/kill_list.html' %}
-{% elseif pageType == 'kills' %}
+{% if pageType == 'kills' %}
     {% set killListTitle = 'Kills' %}
     {% set numPages = killPages %}
 	{% set killList = kills %}
@@ -104,7 +105,14 @@
     {% set numPages = lossPages %}
 	{% set killList = losses %}
 	{% set isEmbedded = true %}
+{% endif %}
     {% include 'components/kill_list.html' %}
+  </div>
+  <div class="col-lg-2 pull-left" style="padding: 0px;">
+        {% for topSet in topLists %}
+        {% include 'components/top_killer_list.html' %}
+        {% endfor %}
+  </div>
 {% elseif pageType == 'api' %}
     {% include 'components/corp_list.html' %}
 {% elseif pageType == 'history' %}
@@ -119,6 +127,7 @@
 {% elseif pageType == 'corpstats' %}
 	{% include 'components/corpstats.html' %}
 {% endif %}
+</div>
 
 {% endblock %}
 
