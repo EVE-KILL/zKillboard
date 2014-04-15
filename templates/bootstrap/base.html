@@ -93,7 +93,7 @@
 
             <div class="container nobackground">
 		{% if getNotification() %}
-			<div class="alert" style="padding: 0px; margin: 0px; psition: relative; top: -15px;"><center>{{ getNotification() }}</center></div>
+			<div class="alert" style="padding: 0px; margin: 0px; psition: relative; top: -15px;"><center>{{ getNotification()|raw }}</center></div>
 		{% endif %}
 
 		{% if accountBalance >= adFreeMonthCost %}
