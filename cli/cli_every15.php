@@ -46,6 +46,8 @@ class cli_every15 implements cliCommand
 		Storage::store("TopChars", json_encode(Info::doMakeCommon("Top Characters", "characterID", Stats::getTopPilots($p))));
 		Storage::store("TopCorps", json_encode(Info::doMakeCommon("Top Corporations", "corporationID", Stats::getTopCorps($p))));
 		Storage::store("TopAllis", json_encode(Info::doMakeCommon("Top Alliances", "allianceID", Stats::getTopAllis($p))));
+		Storage::store("TopShips", json_encode(Info::doMakeCommon("Top Ships", "shipTypeID", Stats::getTopShips($p))));
+		Storage::store("TopSystems", json_encode(Info::doMakeCommon("Top Systems", "solarSystemID", Stats::getTopSystems($p))));
 		Storage::store("TopIsk", json_encode(Stats::getTopIsk(array("pastSeconds" => ($numDays*86400), "limit" => 5))));
 		Storage::store("TopPods", json_encode(Stats::getTopIsk(array("groupID" => 29, "pastSeconds" => ($numDays*86400), "limit" => 5))));
 		Storage::store("TopPoints", json_encode(Stats::getTopPoints("killID", array("losses" => true, "pastSeconds" => ($numDays*86400), "limit" => 5))));

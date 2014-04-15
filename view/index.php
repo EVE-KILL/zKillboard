@@ -27,6 +27,8 @@ $top = array();
 $top[] = json_decode(Storage::retrieve("TopChars"), true);
 $top[] = json_decode(Storage::retrieve("TopCorps"), true);
 $top[] = json_decode(Storage::retrieve("TopAllis"), true);
+$top[] = json_decode(Storage::retrieve("TopShips"), true);
+$top[] = json_decode(Storage::retrieve("TopSystems"), true);
 
 // get latest kills
 $killsLimit = 50;

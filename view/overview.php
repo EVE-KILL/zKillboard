@@ -119,9 +119,17 @@ if ($pageType == "top" || ($pageType == "topalltime" && in_array($key, $validAll
                 $p["pastSeconds"] = $numDays * 86400;
                 $p["kills"] = $pageType != "losses";
 
-		$topLists[] = Info::doMakeCommon("Top Characters", "characterID", Stats::getTopPilots($p));
-		$topLists[] = Info::doMakeCommon("Top Corporations", "corporationID", Stats::getTopCorps($p));
-                $topLists[] = Info::doMakeCommon("Top Alliances", "allianceID", Stats::getTopAllis($p));
+		if ($key != "character") {
+			$topLists[] = Info::doMakeCommon("Top Characters", "characterID", Stats::getTopPilots($p));
+			if ($key != "corporation") {
+				$topLists[] = Info::doMakeCommon("Top Corporations", "corporationID", Stats::getTopCorps($p));
+				if ($key != "alliance") {
+					$topLists[] = Info::doMakeCommon("Top Alliances", "allianceID", Stats::getTopAllis($p));
+				}
+			}
+		}
+		if ($key != "ship") $topLists[] = Info::doMakeCommon("Top Ships", "shipTypeID", Stats::getTopShips($p));
+		if ($key != "system") $topLists[] = Info::doMakeCommon("Top Systems", "solarSystemID", Stats::getTopSystems($p));
 }
 
 $corpList = array();
