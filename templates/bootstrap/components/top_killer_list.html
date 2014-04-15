@@ -11,6 +11,8 @@
         {% set field = data %}
         {% if topSet.type == 'character' %}
           <td>{% include 'components/image_char.html' %}</td>
+        {% elseif topSet.type == 'corporation' %}
+          <td>{% include 'components/image_corp.html' %}</td>
         {% elseif topSet.type == 'alliance' %}
           <td>{% include 'components/image_alli.html' %}</td>
         {% elseif topSet.type == 'solarSystem' %}
