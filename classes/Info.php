@@ -272,11 +272,8 @@ class Info
 	 */
 	public static function getFactionID($name)
 	{
-		$factions = array("Caldari State" => 500001, "Minmatar Republic" => 500002, "Amarr Empire" => 500003, "Gallente Federation" => 500004);
-
-		if(isset($factions[$name]))
-			return $factions[$name];
-		return false;
+		$data = Db::queryRow("select * from zz_factions where name = :name", array(":name" => $name));
+		return isset($data["factionID"]) ? $data["factionID"] : null;
 	}
 
 	/**
@@ -286,11 +283,8 @@ class Info
 	 */
 	public static function getFactionName($id)
 	{
-		$factions = array(500001 => "Caldari State", 500002 => "Minmatar Republic", 500003 => "Amarr Empire", 500004 => "Gallente Federation");
-
-		if(isset($factions[$id]))
-			return $factions[$id];
-		return false;
+		$data = Db::queryRow("select * from zz_factions where factionID = :id", array(":id" => $id));
+		return isset($data["name"]) ? $data["name"] : "Faction $id";
 	}
 
 	/**
