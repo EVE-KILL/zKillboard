@@ -1,4 +1,4 @@
-{% if pageType == "kills" or pageType == "overview" %}
+{% if pageType == "kills" or pageType == "overview" or pageType == "solo" or pageType == "losses" %}
 	{% set pageBase = requestUriPager|last == '/' ? requestUriPager ~ 'page/' : requestUriPager ~ '/page/' %}
 {% elseif pageType == "index" %}
 	{% set pageBase = "/kills/page/" %}
